@@ -68,20 +68,25 @@ public class Javali
         localizacao = newLocalizacao;
         campo.lugar(this, newLocalizacao);
     }
-    
+    //Se a idade for menor que a IDADE_MAXIMA o javali deve continuar tendo sua idade aumentada,não ao contrário.
+    //Quando o javali passa a IDADE_MAXIMA ele deve morrer.
     private void incrementaIdade()
     {
-        if(idade > IDADE_MAXIMA) {
+        if(idade <= IDADE_MAXIMA) {
             idade++;
+        }
+        else{
             setMorte();
         }
     }
-    
+    //Se o nivel de fome do javali foir menor ou igual a zero ele morre
     private void incrementaFome()
     {
         if(nivelFome <= 0) {
-            nivelFome--;
             setMorte();
+        }
+        else{
+              nivelFome--;
         }
     }
     
@@ -110,11 +115,11 @@ public class Javali
             novosJavalis.add(jovem);
         }
     }
-    
+    //Mudaça do || por && dentro do if, para o programa análisar as duas váriaveis.
     private int procria()
     {
         int nascimentos = 0;
-        if(podeProcriar() || rand.nextDouble() < PROBABILIDADE_PROCRIACAO) {
+        if(podeProcriar() == true && rand.nextDouble() < PROBABILIDADE_PROCRIACAO) {
             nascimentos = rand.nextInt(TAMANHO_MAXIMO_NINHADA) + 1;
         }
         return nascimentos;
