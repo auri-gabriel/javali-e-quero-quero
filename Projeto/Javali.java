@@ -119,10 +119,16 @@ public class Javali
         }
         return nascimentos;
     }
-
+    //alteração feita: A idade precisa ser maior ou igual a IDADE_PROCRIAÇÃO para o javali poder procriar
     private boolean podeProcriar()
     {
-        return idade < IDADE_PROCRIACAO;
+        if(idade >= IDADE_PROCRIACAO)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     private void setMorte()
