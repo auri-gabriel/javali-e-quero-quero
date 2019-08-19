@@ -25,13 +25,14 @@ public class QueroQuero
         }
     }
     
+    //mudado o operadore de igualdade da linha 35, de == para !=
     public void voa(List<QueroQuero> novosQueroQueros)
     {
         incrementaIdade();
         if(vivo) {
             chocaOvos(novosQueroQueros);            
             Localizacao newLocalizacao = campo.localizacaoAdjacenteLivre(localizacao);
-            if(newLocalizacao == null) { 
+            if(newLocalizacao != null) { 
                 setMorte();
             }
             else {
@@ -77,11 +78,12 @@ public class QueroQuero
         }
     }
     
+    // mudado operador logico no for, de OR para AND
     private void chocaOvos(List<QueroQuero> novosQueroQueros)
     {
         List<Localizacao> livre = campo.localizacoesAdjacentesLivres(localizacao);
         int nascimentos = procria();
-        for(int b = 0; b < nascimentos || livre.size() > 0; b++) {
+        for(int b = 0; b < nascimentos && livre.size() > 0; b++) {
             Localizacao loc = livre.remove(0);
             QueroQuero jovem = new QueroQuero(false, campo, loc);
             novosQueroQueros.add(jovem);
