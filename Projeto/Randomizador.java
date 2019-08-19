@@ -6,6 +6,12 @@ public class Randomizador
     private static final Random rand = new Random(SEED);
     private static final boolean useShared = true;
 
+    //criado o construtor da classe Randomizador
+    public Randomizador()
+    {
+
+    }
+    
     public static Random getRandom()
     {
         if(useShared) {
