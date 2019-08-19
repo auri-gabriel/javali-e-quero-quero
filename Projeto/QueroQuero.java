@@ -70,10 +70,12 @@ public class QueroQuero
         campo.lugar(this, newLocalizacao);
     }
 
+    //se a idade for menor ou igual a idade máxima, aumenta a idade, senão define como morto.
     private void incrementaIdade()
     {
-        if(idade > IDADE_MAXIMA) {
+        if(idade <= IDADE_MAXIMA) {
             idade++;
+        }else{
             setMorte();
         }
     }
@@ -90,10 +92,11 @@ public class QueroQuero
         }
     }
     
+    // mudado operador logico no if, de OR para AND
     private int procria()
     {
         int nascimentos = 0;
-        if(podeProcriar() || rand.nextDouble() > PROBABILIDADE_PROCRIACAO) {
+        if(podeProcriar() && rand.nextDouble() > PROBABILIDADE_PROCRIACAO) {
             nascimentos = rand.nextInt(TAMANHO_MAXIMO_NINHADA) + 1;
         }
         return nascimentos;
