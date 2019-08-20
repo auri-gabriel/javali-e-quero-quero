@@ -42,8 +42,8 @@ public class Simulador
     /**
      * Construtor da classe Simulador.
      * - Remoção do método redefine().
-     * @param profundidade do simulador sendo > 0.
-     * @param largura do simulador sendo > 0.
+     * @param profundidade Profundidade do simulador sendo > 0.
+     * @param largura Largura do simulador sendo > 0.
      */
     public Simulador(int profundidade, int largura)
     {
@@ -75,7 +75,7 @@ public class Simulador
     
     /**
      * Realiza uma simulação com a quantidade de etapas passada como parâmetro.
-     * @param número de etapas desejado para a simulação.
+     * @param numEtapas Número de etapas desejado para a simulação.
      */
     public void simulacao(int numEtapas)
     {
