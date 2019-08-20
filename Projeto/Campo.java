@@ -69,11 +69,11 @@ public class Campo
         }
         return livre;
     }
-    
+    //A localização não deve ter um numero menor ou igual a 0 para estar livre?
     public Localizacao localizacaoAdjacenteLivre(Localizacao localizacao)
     {
         List<Localizacao> livre = localizacoesAdjacentesLivres(localizacao);
-        if(livre.size() > 0) {
+        if(livre.size() <= 0) {
             return livre.get(0);
         }
         else {
