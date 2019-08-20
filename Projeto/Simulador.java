@@ -4,6 +4,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.awt.Color;
 
+/**
+ *A classe Simulador é responsável por criar o estado inicial da simulação 
+ *e então controlar e executá-la. A ideia básica é simples: o simulador 
+ *armazena coleções de javalis e quero-queros e ele repetidamente dá a 
+ *esses animais uma oportunidade de sobreviver em um passo de seus ciclos 
+ *de vida. Em cada passo, cada javali e cada quero-quero têm a permissão de 
+ *executar as ações que caracterizam seus comportamentos. Depois de cada passo 
+ *(quando todos os animais tiveram a chance de atuar) o novo estado atual do 
+ *campo é exibido na tela.
+ *
+ *@author Guilherme
+ */
+
 public class Simulador
 {
     private static final int LARGURA_PADRAO = 50;
@@ -17,11 +30,20 @@ public class Simulador
     private int etapa;
     private SimuladorTela tela;
     
+    /**
+     * Construtor da classe Simulador.
+     * Caso não seja atribuído nenhum parâmetro, o objeto é construído com largura e profundidade padrões.
+     */
     public Simulador()
     {
         this(PROFUNDIDADE_PADRAO, LARGURA_PADRAO);
     }
     
+    /**
+     * Construtor da classe Simulador.
+     * - Remoção do método redefine().
+     * @param profundidade e largura do simulador > 0.
+     */
     public Simulador(int profundidade, int largura)
     {
         if(largura <= 0 && profundidade <= 0) { 
@@ -41,12 +63,19 @@ public class Simulador
         
         redefine();
     }
-
+    
+    /**
+     * Realiza uma simulação com a quantidade predefinida de 500 etapas.
+     */
     public void executaLongaSimulacao()
     {
         simulacao(500);
     }
     
+    /**
+     * Realiza uma simulação com a quantidade de etapas passada como parâmetro.
+     * @param número de etapas desejado para a simulação.
+     */
     public void simulacao(int numEtapas)
     {
         for(int etapa = 1; etapa <= numEtapas && tela.ehViavel(campo); etapa++) {
@@ -54,6 +83,9 @@ public class Simulador
         }
     }
     
+    /**
+     * Executa a simulação de uma etapa do programa.
+     */
     public void simulacaoUmaEtapa()
     {
         List<QueroQuero> novosQueroQueros = new ArrayList<QueroQuero>();        
@@ -80,6 +112,9 @@ public class Simulador
         tela.mostraStatus(etapa, campo);
     }
     
+    /**
+     * Reseta a simulação.
+     */
     public void redefine()
     {
         etapa = 0;
@@ -88,6 +123,9 @@ public class Simulador
         tela.mostraStatus(etapa, campo);
     }
     
+    /**
+     * Realiza a distribuição da população de javalis e quero-queros pelo campo simulado.
+     */
     private void povoa()
     {
         Random rand = Randomizador.getRandom();
