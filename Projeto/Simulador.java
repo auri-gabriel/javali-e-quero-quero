@@ -42,7 +42,8 @@ public class Simulador
     /**
      * Construtor da classe Simulador.
      * - Remoção do método redefine().
-     * @param profundidade e largura do simulador > 0.
+     * @param profundidade do simulador sendo > 0.
+     * @param largura do simulador sendo > 0.
      */
     public Simulador(int profundidade, int largura)
     {
