@@ -25,7 +25,7 @@ public class QueroQuero
         }
     }
     
-    //mudado o operadore de igualdade da linha 35, de == para !=
+    //mudado o operador de igualdade de == para !=
     public void voa(List<QueroQuero> novosQueroQueros)
     {
         incrementaIdade();
@@ -92,11 +92,11 @@ public class QueroQuero
         }
     }
     
-    // mudado operador logico no if, de OR para AND
+    // mudado operador logico no if, de OR para AND, mudado o operador Operador relacional de > para <=
     private int procria()
     {
         int nascimentos = 0;
-        if(podeProcriar() && rand.nextDouble() > PROBABILIDADE_PROCRIACAO) {
+        if(podeProcriar() && rand.nextDouble() <= PROBABILIDADE_PROCRIACAO) {
             nascimentos = rand.nextInt(TAMANHO_MAXIMO_NINHADA) + 1;
         }
         return nascimentos;
