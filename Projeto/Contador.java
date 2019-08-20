@@ -12,8 +12,8 @@ public class Contador
     
     /**
      * Construtor da classe Contador que recebe o nome do 
-     * contador como parâmetro
-     * @param nome do contador.
+     * contador como parâmetro;
+     * @param name Nome do contador.
      */
 
     public Contador(String name)
@@ -23,8 +23,8 @@ public class Contador
     }
     
     /**
-     * Captura o nome do contador
-     * @return name
+     * Captura o nome do contador;
+     * @return name.
      */
     public String getName()
     {
@@ -32,8 +32,8 @@ public class Contador
     }
     
     /**
-     * Captura o valor da contagem atual do contador
-     * @return count
+     * Captura o valor da contagem atual do contador;
+     * @return count.
      */
     public int getCount()
     {
@@ -41,7 +41,7 @@ public class Contador
     }
 
     /**
-     * Incrementa o valor da contagem atual em uma unidade
+     * Incrementa o valor da contagem atual em uma unidade;
      */
     public void increment()
     {
@@ -49,7 +49,7 @@ public class Contador
     }
     
     /**
-     * Reseta a contagem atual, atribuindo o valor 0 à variável count
+     * Reseta a contagem atual, atribuindo o valor 0 à variável count;
      */
     public void reset()
     {
