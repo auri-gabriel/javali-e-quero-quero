@@ -126,6 +126,7 @@ public class Simulador
     
     /**
      * Realiza a distribuição da população de javalis e quero-queros pelo campo simulado.
+     * - Mudança nos condicionais do método
      */
     private void povoa()
     {
@@ -133,12 +134,12 @@ public class Simulador
         campo.limpa();
         for(int linha = 0; linha < campo.getProfundidade(); linha++) {
             for(int coluna = 0; coluna < campo.getLargura(); coluna++) {
-                if(rand.nextDouble() > PROBABILIDADE_CRIACAO_QUEROQUERO) {
+                if(rand.nextDouble() <= PROBABILIDADE_CRIACAO_JAVALI) {
                     Localizacao localizacao = new Localizacao(linha, coluna);
                     Javali javali = new Javali(false, campo, localizacao);
                     javalis.add(javali);
                 }
-                else if(rand.nextDouble() > PROBABILIDADE_CRIACAO_JAVALI) {
+                else if(rand.nextDouble() <= PROBABILIDADE_CRIACAO_QUEROQUERO) {
                     Localizacao localizacao = new Localizacao(linha, coluna);
                     QueroQuero queroQuero = new QueroQuero(false, campo, localizacao);
                     queroQueros.add(queroQuero);
