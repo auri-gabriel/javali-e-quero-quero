@@ -16,7 +16,13 @@ public class Javali
     private Localizacao localizacao;
     private Campo campo;
     private int nivelFome;
-
+    
+    /*Construtor da classe, iniciada com um objeto javali com idade e nivel de fome
+    *randomicos, ou 0 se o javali tiver nascido com a simulação em adamento
+    *@param IdadeRandomica
+    *@param campo
+    *@param localizacao
+    */
     public Javali(boolean idadeRandomica, Campo campo, Localizacao localizacao)
     {
         idade = 0;
@@ -31,7 +37,11 @@ public class Javali
             nivelFome = VALOR_FOME_QUEROQUERO;
         }
     }
-    
+    /*Método responsável por definir o javali como predador,
+    *caçando quero queros que estejam em posições adjacentes
+    *Também responsável pela procriação dos javalis
+    @param novosJavalis
+    */
     public void caca(List<Javali> novosJavalis)
     {
         incrementaIdade();
@@ -49,12 +59,14 @@ public class Javali
             }
         }
     }
-
+    /* Da um retorno se o javali está vivo.
+    */
     public boolean estaVivo()
     {
         return vivo;
     }
-
+    /*Informa a localização do javali
+    */
     public Localizacao getLocalizacao()
     {
         return localizacao;
