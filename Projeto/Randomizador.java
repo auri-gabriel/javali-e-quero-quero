@@ -30,6 +30,7 @@ public class Randomizador
             return new Random();
         }
     }
+    
     /** Reseta o objeto
     *   se useShared é verdadeiro, o objeto rand volta a usar a variável SEED como Seed.
     */
