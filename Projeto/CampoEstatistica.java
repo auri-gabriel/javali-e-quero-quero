@@ -11,7 +11,9 @@ public class CampoEstatistica
         contadores = new HashMap<Class, Contador>();
         contadoresValidos = true;
     }
-
+     /*Informa os detalhes da população dentro da simulação
+     *Dando nome e quantidade de objetos dentro dela
+     * */
     public String getPopulationDetails(Campo campo)
     {
         StringBuffer buffer = new StringBuffer();
@@ -27,7 +29,8 @@ public class CampoEstatistica
         }
         return buffer.toString();
     }
-    
+      /*Reseta as estatisticas da simulação
+        */
     public void redefine()
     {
         contadoresValidos = false;
@@ -66,7 +69,8 @@ public class CampoEstatistica
         }
         return nonZero > 1;
     }
-    
+       /*Inicia o contdor de estatistica dentro da simulação
+      */
     private void geraContadores(Campo campo)
     {
         redefine();
