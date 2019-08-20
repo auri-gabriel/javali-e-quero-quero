@@ -4,6 +4,11 @@ import javax.swing.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * A classe SimuladorTela fornece uma visão gráfica do estado do campo.
+ *
+ * @author Guilherme
+ */
 public class SimuladorTela extends JFrame
 {
     private static final Color COR_VAZIA = Color.white;
@@ -17,6 +22,11 @@ public class SimuladorTela extends JFrame
     private Map<Class, Color> cores;
     private CampoEstatistica estatisticas;
     
+    /**
+     * Construtor da classe SimuladorTela;
+     * @param height Altura do simulador;
+     * @param width Largura do simulador.
+     */
     public SimuladorTela(int height, int width)
     {
         estatisticas = new CampoEstatistica();
@@ -38,11 +48,20 @@ public class SimuladorTela extends JFrame
         setVisible(true);
     }
     
+    /**
+     * Altera a cor de determinada classe de animal na simulação;
+     * @param animalClass Classe de animal;
+     * @param color Cor escolhida.
+     */
     public void setCor(Class animalClass, Color color)
     {
         cores.put(animalClass, color);
     }
 
+    /**
+     * Retorna a cor que representa determinada classe de animal na simulação;
+     * @param animalClass Classe de animal;
+     */
     private Color getCor(Class animalClass)
     {
         Color coluna = cores.get(animalClass);
@@ -53,7 +72,12 @@ public class SimuladorTela extends JFrame
             return coluna;
         }
     }
-
+    
+    /**
+     * Exibe na tela a situação atual da simulação de determinada etapa;
+     * @param etapa Etapa na qual deseja-se observar a situação atual;
+     * @param campo Campo utilizado para a simulação.
+     */
     public void mostraStatus(int etapa, Campo campo)
     {
         if(!isVisible()) {
@@ -82,12 +106,23 @@ public class SimuladorTela extends JFrame
         populacao.setText(PREFIXO_POPULACAO + estatisticas.getPopulationDetails(campo));
         visaoCampo.repaint();
     }
-
+    
+    /**
+     * Retorna um valor booleano que indica se o campo que foi simulado é viável 
+     * ou não para a manutenção das duas espécies;
+     * @param campo Campo utilizado para a simulação;
+     * @return True caso o campo seja viável ou false caso o campo não seja viável.
+     */
     public boolean ehViavel(Campo campo)
     {
         return estatisticas.ehViavel(campo);
     }
-
+    
+    /**
+     * A classe VisaoCampo é responsável pelo gerenciamento dos métodos e atributos
+     * que compõem a interface gráfica da simulação;
+     * - Alteração no encapsulamento da classe VisaoCampo, de private para public.
+     */
     private class VisaoCampo extends JPanel
     {
         private final int GRID_VIEW_SCALING_FACTOR = 6;
@@ -97,20 +132,37 @@ public class SimuladorTela extends JFrame
         Dimension size;
         private Graphics g;
         private Image fieldImage;
-
+        
+        /**
+         * Construtor da classe VisaoCampo;
+         * @param height Altura do campo;
+         * @param width Largura do campo;
+         */
         public VisaoCampo(int height, int width)
         {
             gridHeight = height;
             gridWidth = width;
             size = new Dimension(0, 0);
         }
-
+        
+        /**
+         * Retorna um novo valor para o dimensionamento do campo, 
+         * utilizando como parâmetros o valor da multiplicação
+         * entre a altura e a constante de fator de escala de
+         * exibição da grade e a largura e a constante de fator 
+         * de escala de exibição da grade;
+         * @return novo valor para o dimensionamento
+         */
         public Dimension getPreferredSize()
         {
             return new Dimension(gridWidth * GRID_VIEW_SCALING_FACTOR,
                                  gridHeight * GRID_VIEW_SCALING_FACTOR);
         }
-
+        
+        /**
+         * Atribui as dimensões de escala para os valores x e y, que serão
+         * utilizados para a construção do desenho na imagem.
+         */
         public void preparePaint()
         {
             if(! size.equals(getSize())) {
@@ -129,12 +181,23 @@ public class SimuladorTela extends JFrame
             }
         }
 
+        /**
+         * Atribui a cor e o posicionamento do quadrado na tela, que representa 
+         * a posição de um javali ou quero-quero no campo;
+         * @param x A posição x do quadrado a ser pintado;
+         * @param y A posição y do quadrado a ser pintado; 
+         * @param color A cor do quadrado. 
+         */
         public void drawMark(int x, int y, Color color)
         {
             g.setColor(color);
             g.fillRect(x * xScale, y * yScale, xScale-1, yScale-1);
         }
-
+        
+        /**
+         * Cria a imagem na tela;
+         * @param g Imagem que será carregada.
+         */
         public void paintComponent(Graphics g)
         {
             if(fieldImage != null) {
