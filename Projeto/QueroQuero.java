@@ -1,6 +1,9 @@
 import java.util.List;
 import java.util.Random;
 
+/**
+* A classe Quero-Quero fornece um modelo simples do comportamento de uma presa. 
+*/
 public class QueroQuero
 {
     private static final int IDADE_PROCRIACAO = 5;
@@ -14,6 +17,12 @@ public class QueroQuero
     private Localizacao localizacao;
     private Campo campo;
 
+    /**
+     * Construtor da classe QueroQuero
+     * @param randomAge   define se o objeto vai ter uma idade aleatoria
+     * @param campo       define o campo do objeto
+     * @param localizacao define a localização do objeto
+     */
     public QueroQuero(boolean randomAge, Campo campo, Localizacao localizacao)
     {
         idade = 0;
@@ -25,7 +34,10 @@ public class QueroQuero
         }
     }
     
-    //mudado o operador de igualdade de == para !=
+    /**
+     * Realiza a movimentação do queroquero no campo.
+	 * @param novosQueroQueros uma lista de novos queroqueros
+     */
     public void voa(List<QueroQuero> novosQueroQueros)
     {
         incrementaIdade();
@@ -41,11 +53,19 @@ public class QueroQuero
         }
     }
     
+    
+    /**
+     * Informa se o objeto QueroQuero está vivo
+     * @return vivo
+     */    
     public boolean estaViva()
     {
         return vivo;
     }
     
+    /**
+     * Define o objeto queroquero como morto e limpa a sua localizacao.
+     */    
     public void setMorte()
     {
         vivo = false;
@@ -56,11 +76,19 @@ public class QueroQuero
         }
     }
     
+    /**
+     * Informa a localização do QueroQuero.
+     * @return localizacao
+     */    
     public Localizacao getLocalizacao()
     {
         return localizacao;
     }
     
+    /**
+     * Modifica a localização do queroquero.
+     * @param newLocalizacao a nova localizacao do queroquero
+     */
     private void setLocalizacao(Localizacao newLocalizacao)
     {
         if(localizacao != null) {
@@ -70,7 +98,10 @@ public class QueroQuero
         campo.lugar(this, newLocalizacao);
     }
 
-    //se a idade for menor ou igual a idade máxima, aumenta a idade, senão define como morto.
+    /**
+     * Incrementa a idade do QueroQuero
+     * se a idade for maior que a idade maxima, define o queroquero como morto
+     */
     private void incrementaIdade()
     {
         if(idade <= IDADE_MAXIMA) {
@@ -80,7 +111,10 @@ public class QueroQuero
         }
     }
     
-    // mudado operador logico no for, de OR para AND
+   /**
+     * Realiza os nascimentos de novos queroqueros.
+	 * @param novosQueroQueros uma lista de novos queroqueros
+     */
     private void chocaOvos(List<QueroQuero> novosQueroQueros)
     {
         List<Localizacao> livre = campo.localizacoesAdjacentesLivres(localizacao);
@@ -92,7 +126,10 @@ public class QueroQuero
         }
     }
     
-    // mudado operador logico no if, de OR para AND, mudado o operador Operador relacional de > para <=
+    /**
+     * Gera um numero aleatorio de nascimentos.
+     * @return nascimentos  numero de nascimentos que ocorrerão.
+     */
     private int procria()
     {
         int nascimentos = 0;
@@ -102,6 +139,10 @@ public class QueroQuero
         return nascimentos;
     }
 
+    /**
+     * informa se o  QueroQuero pode procriar.
+     * @return true se a idade for maior ou igual a idade de procriação.
+     */
     private boolean podeProcriar()
     {
         return idade >= IDADE_PROCRIACAO;
