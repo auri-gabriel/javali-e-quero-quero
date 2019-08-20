@@ -101,7 +101,8 @@ public class Javali
               nivelFome--;
         }
     }
-    
+    /*Controla a ação do predaro ao procurar comida
+    */
     private Localizacao procuraComida(Localizacao localizacao)
     {
         List<Localizacao> adjacente = campo.localizacoesAdjacentes(localizacao);
@@ -147,7 +148,8 @@ public class Javali
             return false;
         }
     }
-
+    /*Remove o objeto quando uma das suas variaveis de morte é realizada
+    */
     private void setMorte()
     {
         vivo = false;
