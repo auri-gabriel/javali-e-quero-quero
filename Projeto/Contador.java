@@ -1,4 +1,4 @@
-/*
+/**
  * A classe Contador armazena uma contagem para auxiliar a classe CampoEstatistica 
  * @author Guilherme
  */
