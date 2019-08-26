@@ -1,7 +1,10 @@
-
 /**
 * A classe Localizacao representa uma posição bidimensional dentro do campo.
 * Sua posição é determinada por um valor de coluna e linha.
+* 
+* Alterações:
+* - Atualização do javadoc;
+* - Renomeação de variáveis;
 */
 
 public class Localizacao
@@ -11,8 +14,8 @@ public class Localizacao
 
     /**
     * Construtor da classe Localizacao.
-    * @param linha   numero da linha da Localizacao.
-    * @param coluna  numero da coluna da Localizacao.
+    * @param linha numero da linha da Localizacao.
+    * @param coluna numero da coluna da Localizacao.
     */
     public Localizacao(int linha, int coluna)
     {
@@ -22,14 +25,14 @@ public class Localizacao
     
     /**
      * Compara dois objetos do tipo Localizacao.
-     * @param obj objeto que sera comparado com a localização.
-     * @return true se os objeto for uma localização e estiverem na mesma localização, senão retorna false.
+     * @param objeto que será comparado com a localização.
+     * @return true se o objeto for uma localização e se estiverem na mesma localização, senão retorna false.
      */
     public boolean equals(Object obj)
     {
         if(obj instanceof Localizacao) {
-        	Localizacao outra = (Localizacao) obj;
-            return linha == outra.getLinha() && coluna == outra.getColuna();
+        	Localizacao comparaLocalizacao = (Localizacao) obj;
+            return linha == comparaLocalizacao.getLinha() && coluna == comparaLocalizacao.getColuna();
         }
         else {
             return false;
@@ -37,7 +40,7 @@ public class Localizacao
     }
     
     /**
-     * informa uma string com linha e coluna da localização.
+     * Informa uma string com linha e coluna da localização.
      * @return string com linha e coluna
      */
     public String toString()
@@ -46,8 +49,8 @@ public class Localizacao
     }
     
     /**
-    * Informa um codigo hash da localização.
-    * @return hashcode um codigo hash formado pela linha e coluna
+    * Informa um código hash da localização.
+    * @return um código hash formado pela linha e coluna
     */
     public int hashCode()
     {
@@ -56,7 +59,7 @@ public class Localizacao
     
     /**
     * informa a linha da localização.
-    * @return linha o numero da linha.
+    * @return captura o valor da linha da localização.
     */ 
     public int getLinha()
     {
@@ -65,7 +68,7 @@ public class Localizacao
     
     /**
     * Informa a coluna da localização.
-    * @return coluna o numero da coluna.
+    * @return captura o valor da coluna da localização.
     */    
     public int getColuna()
     {
