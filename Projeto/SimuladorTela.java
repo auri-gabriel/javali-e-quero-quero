@@ -1,17 +1,20 @@
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * A classe SimuladorTela fornece uma visão gráfica do estado do campo.
- *
- * @author Guilherme
+ * 
+ * Alterações:
+ * - Remoção do import java.awt.event por não estar sendo utilizado
+ * nesta classe;
+ * - Renomeação de variáveis;
  */
 public class SimuladorTela extends JFrame
 {
-    private static final Color COR_VAZIA = Color.white;
+	private static final long serialVersionUID = 1L;
+	private static final Color COR_VAZIA = Color.white;
     private static final Color COR_INDEFINIDA = Color.gray;
 
     private final String PREFIXO_ETAPA = "Etapa: ";
@@ -19,7 +22,7 @@ public class SimuladorTela extends JFrame
     private JLabel rotuloEtapa, populacao;
     private VisaoCampo visaoCampo;
     
-    private Map<Class, Color> cores;
+    private Map<Class <?>, Color> cores;
     private CampoEstatistica estatisticas;
     
     /**
@@ -30,7 +33,7 @@ public class SimuladorTela extends JFrame
     public SimuladorTela(int height, int width)
     {
         estatisticas = new CampoEstatistica();
-        cores = new LinkedHashMap<Class, Color>();
+        cores = new LinkedHashMap<Class <?>, Color>();
 
         setTitle("Simulacao Quero-Queros e Javalis");
         rotuloEtapa = new JLabel(PREFIXO_ETAPA, JLabel.CENTER);
@@ -53,7 +56,7 @@ public class SimuladorTela extends JFrame
      * @param animalClass Classe de animal;
      * @param color Cor escolhida.
      */
-    public void setCor(Class animalClass, Color color)
+    public void setCor(Class<?> animalClass, Color color)
     {
         cores.put(animalClass, color);
     }
@@ -62,7 +65,7 @@ public class SimuladorTela extends JFrame
      * Retorna a cor que representa determinada classe de animal na simulação;
      * @param animalClass Classe de animal;
      */
-    private Color getCor(Class animalClass)
+    private Color getCor(Class<?> animalClass)
     {
         Color coluna = cores.get(animalClass);
         if(coluna == null) {
@@ -85,13 +88,13 @@ public class SimuladorTela extends JFrame
         }
         
         rotuloEtapa.setText(PREFIXO_ETAPA + etapa);
-        estatisticas.redefine();
+        estatisticas.reiniciaEstatisticas();
         
         visaoCampo.preparePaint();
 
-        for(int row = 0; row < campo.getProfundidade(); row++) {
+        for(int row = 0; row < campo.getLargura(); row++) {
             for(int col = 0; col < campo.getLargura(); col++) {
-                Object animal = campo.getObjectAt(row, col);
+                Object animal = campo.obterObjeto(row, col);
                 if(animal != null) {
                     estatisticas.incrementaContador(animal.getClass());
                     visaoCampo.drawMark(col, row, getCor(animal.getClass()));
@@ -103,7 +106,7 @@ public class SimuladorTela extends JFrame
         }
         estatisticas.contadorFinalizado();
 
-        populacao.setText(PREFIXO_POPULACAO + estatisticas.getPopulationDetails(campo));
+        populacao.setText(PREFIXO_POPULACAO + estatisticas.obterDetalhesPopulacao(campo));
         visaoCampo.repaint();
     }
     
@@ -125,7 +128,9 @@ public class SimuladorTela extends JFrame
      */
     private class VisaoCampo extends JPanel
     {
-        private final int GRID_VIEW_SCALING_FACTOR = 6;
+		private static final long serialVersionUID = 1L;
+
+		private final int GRID_VIEW_SCALING_FACTOR = 6;
 
         private int gridWidth, gridHeight;
         private int xScale, yScale;
