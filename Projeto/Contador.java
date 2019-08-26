@@ -1,43 +1,44 @@
 /**
- * A classe Contador armazena uma contagem para auxiliar a classe CampoEstatistica 
- * @author Guilherme
+ * A classe Contador armazena uma contagem para auxiliar 
+ * a classe CampoEstatistica 
+ * Alterações: 
+ * - Remoção do import java.awt.Color por não estar sendo 
+ * utilizado nesta classe;
+ * - Atualização do javadoc da classe;
+ * - Padronização do idioma das variáveis;
  */
-
-import java.awt.Color;
-
 public class Contador
 {
-    private String name;
-    private int count;
+    private String nome;
+    private int contagem;
     
     /**
      * Construtor da classe Contador que recebe o nome do 
-     * contador como parâmetro;
-     * @param name Nome do contador.
+     * contador como parâmetro e inicia a contagem com o valor 0;
+     * @param nome Nome do contador.
      */
-
-    public Contador(String name)
+    public Contador(String nome)
     {
-        this.name = name;
-        count = 0;
+        this.nome = nome;
+        contagem = 0;
     }
     
     /**
      * Captura o nome do contador;
-     * @return name.
+     * @return nome.
      */
-    public String getName()
+    public String getNome()
     {
-        return name;
+        return nome;
     }
     
     /**
      * Captura o valor da contagem atual do contador;
-     * @return count.
+     * @return contagem.
      */
-    public int getCount()
+    public int getContagem()
     {
-        return count;
+        return contagem;
     }
 
     /**
@@ -45,14 +46,14 @@ public class Contador
      */
     public void increment()
     {
-        count++;
+        contagem++;
     }
     
     /**
-     * Reseta a contagem atual, atribuindo o valor 0 à variável count;
+     * Reseta a contagem atual, atribuindo o valor 0 à variável contagem;
      */
     public void reset()
     {
-        count = 0;
+        contagem = 0;
     }
 }
