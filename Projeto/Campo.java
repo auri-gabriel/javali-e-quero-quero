@@ -1,57 +1,104 @@
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * A classe Campo representa um campo delimitado bidimensional. 
+ * O campo é composto por um número fixo de locais, que são 
+ * organizados em linhas e colunas. Um animal pode ocupar no 
+ * máximo um único local dentro do campo. Cada local no campo 
+ * pode conter uma referência a um animal ou pode estar vazio.
+ * 
+ * Alterações:
+ * - Remoção do import java.util.Iterator por não estar sendo
+ * utilizado nessa classe;
+ * - Renomeação de variáveis;
+ * 
+ * */
 public class Campo
 {
     private static final Random rand = Randomizador.getRandom();
     
-    private int profundidade, largura;
+    private int altura, largura;
     private Object[][] campo;
-
-    public Campo(int profundidade, int largura)
+    
+    /**
+     * Construtor da classe SimuladorTela;
+     * @param altura do simulador;
+     * @param largura do simulador.
+     */
+    public Campo(int altura, int largura)
     {
-        this.profundidade = profundidade;
+        this.altura = altura;
         this.largura = largura;
-        campo = new Object[profundidade][largura];
+        campo = new Object[altura][largura];
     }
     
-    public void limpa()
+    /**
+     * Limpa a área total do campo
+     * */
+    public void limpaCampo()
     {
-        for(int linha = 0; linha < profundidade; linha++) {
+        for(int linha = 0; linha < altura; linha++) {
             for(int coluna = 0; coluna < largura; coluna++) {
                 campo[linha][coluna] = null;
             }
         }
     }
     
-    public void limpa(Localizacao localizacao)
+    /**
+     * Limpa a área atribuída a determinado objeto da classe Localizacao;
+     * @param a localização desejada;
+     * */
+    public void limpaCampo(Localizacao localizacao)
     {
         campo[localizacao.getLinha()][localizacao.getColuna()] = null;
     }
     
+    /**
+     * Atribui a um animal uma nova posição dentro do campo;
+     * @param Objeto da classe animal desejada;
+     * @param uma linha do campo;
+     * @param uma coluna do campo;
+     * */
     public void lugar(Object animal, int linha, int coluna)
     {
         lugar(animal, new Localizacao(linha, coluna));
     }
     
+    /**
+     * Atribui a um animal uma nova posição dentro do campo;
+     * @param Objeto da classe animal desejada;
+     * @param a localização desejada;
+     * */
     public void lugar(Object animal, Localizacao localizacao)
     {
         campo[localizacao.getLinha()][localizacao.getColuna()] = animal;
     }
     
-    public Object getObjectAt(Localizacao localizacao)
+    /**
+     * Retorna um objeto na localização desejada;
+     * @param a localização desejada;
+     * */
+    public Object obterObjeto(Localizacao localizacao)
     {
-        return getObjectAt(localizacao.getLinha(), localizacao.getColuna());
+        return obterObjeto(localizacao.getLinha(), localizacao.getColuna());
     }
- 
-    public Object getObjectAt(int linha, int coluna)
+    
+    /**
+     * Retorna um objeto na localização desejada;
+     * @param uma linha do campo;
+     * @param uma coluna do campo;
+     * */
+    public Object obterObjeto(int linha, int coluna)
     {
         return campo[linha][coluna];
     }
     
+    /**
+     * 
+     * */
     public Localizacao localizacaoAdjacenteRandomica(Localizacao localizacao)
     {
         List<Localizacao> adjacent = localizacoesAdjacentes(localizacao);
@@ -63,7 +110,7 @@ public class Campo
         List<Localizacao> livre = new LinkedList<Localizacao>();
         List<Localizacao> adjacente = localizacoesAdjacentes(localizacao);
         for(Localizacao proximo : adjacente) {
-            if(getObjectAt(proximo) == null) {
+            if(obterObjeto(proximo) == null) {
                 livre.add(proximo);
             }
         }
@@ -90,7 +137,7 @@ public class Campo
             int coluna = localizacao.getColuna();
             for(int roffset = -1; roffset <= 1; roffset++) {
                 int proximaLinha = linha + roffset;
-                if(proximaLinha >= 0 && proximaLinha < profundidade) {
+                if(proximaLinha >= 0 && proximaLinha < altura) {
                     for(int coffset = -1; coffset <= 1; coffset++) {
                         int proximaColuna = coluna + coffset;
                         if(proximaColuna >= 0 && proximaColuna < largura && (roffset != 0 || coffset != 0)) {
@@ -103,12 +150,20 @@ public class Campo
         }
         return localizacoes;
     }
-
-    public int getProfundidade()
+    
+    /**
+     * Captura o valor da altura do campo;
+     * @return altura; 
+     * */
+    public int getAltura()
     {
-        return profundidade;
+        return altura;
     }
     
+    /**
+     * Captura o valor da largura do campo;
+     * @return largura; 
+     * */
     public int getLargura()
     {
         return largura;
