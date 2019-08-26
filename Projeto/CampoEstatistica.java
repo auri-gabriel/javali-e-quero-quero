@@ -1,46 +1,71 @@
-import java.awt.Color;
 import java.util.HashMap;
 
+/**
+ * A classe CampoEstatistica fornece a contagem do número 
+ * de javalis e quero-queros no campo para a visualização.
+ * 
+ * Alterações: 
+ * - Remoção do import java.awt.Color por não estar sendo 
+ * utilizado nesta classe;
+ * - Reestruturação do javadoc;
+ * - Padronização do idioma das variáveis;
+ * - Renomeação de variáveis.
+ * */
 public class CampoEstatistica
 {
-    private HashMap<Class, Contador> contadores;
+    private HashMap<Class <?>, Contador> contadores;
     private boolean contadoresValidos;
-
+    
+    /**
+     * Construtor da classe CampoEstatistica.
+     */
     public CampoEstatistica()
     {
-        contadores = new HashMap<Class, Contador>();
+        contadores = new HashMap<Class <?>, Contador>();
         contadoresValidos = true;
     }
-     /*Informa os detalhes da população dentro da simulação
-     *Dando nome e quantidade de objetos dentro dela
+    
+    /**
+     * Informa os detalhes da população dentro da simulação
+     * fornecendo nome e quantidade dos objetos dentro dela.
+     * @param campo referente à simulação;
+     * @return um buffer de String contendo os dados da população
+     * dentro do campo referente à simulação.
      * */
-    public String getPopulationDetails(Campo campo)
+    public String obterDetalhesPopulacao(Campo campo)
     {
         StringBuffer buffer = new StringBuffer();
         if(!contadoresValidos) {
             geraContadores(campo);
         }
-        for(Class chave : contadores.keySet()) {
+        for(Class<?> chave : contadores.keySet()) {
             Contador info = contadores.get(chave);
-            buffer.append(info.getName());
+            buffer.append(info.getNome());
             buffer.append(": ");
-            buffer.append(info.getCount());
+            buffer.append(info.getContagem());
             buffer.append(' ');
         }
         return buffer.toString();
     }
-      /*Reseta as estatisticas da simulação
-        */
-    public void redefine()
+    
+    /**
+     * Reinicia as estatísticas do campo simulado;
+     * */
+    public void reiniciaEstatisticas()
     {
         contadoresValidos = false;
-        for(Class chave : contadores.keySet()) {
+        for(Class<?> chave : contadores.keySet()) {
             Contador contador = contadores.get(chave);
             contador.reset();
         }
     }
-
-    public void incrementaContador(Class animalClass)
+    
+    /**
+     * Incrementa o contador de indivíduos de determinada classe
+     * de animal;
+     * @param o tipo de classe de animal (queroquero ou javali)
+     * */
+    public void incrementaContador(Class<?> animalClass)
     {
         Contador contador = contadores.get(animalClass);
         if(contador == null) {
@@ -49,34 +74,48 @@ public class CampoEstatistica
         }
         contador.increment();
     }
-
+    
+    /**
+     * Reinicia as estatísticas do campo simulado;
+     * */
     public void contadorFinalizado()
     {
         contadoresValidos = true;
     }
-
+    
+    /**
+     * Verifica se as condições do campo simulado são viáveis para
+     * manutenção de ambas as espécies de animais;
+     * @param o objeto que representa o campo simulado;
+     * @return true se houverem pelo menos um representante de cada
+     * espécie, caso contrário, retorna false.
+     * */
     public boolean ehViavel(Campo campo)
     {
         int nonZero = 0;
         if(!contadoresValidos) {
             geraContadores(campo);
         }
-        for(Class key : contadores.keySet()) {
+        for(Class<?> key : contadores.keySet()) {
             Contador info = contadores.get(key);
-            if(info.getCount() > 0) {
+            if(info.getContagem() > 0) {
                 nonZero++;
             }
         }
         return nonZero > 1;
     }
-       /*Inicia o contdor de estatistica dentro da simulação
-      */
+    
+    /**
+     * Inicia o contador de estatistica dentro da simulação, o incrementando
+     * proporcionalmente ao número de animais presente na simulação;
+     * @param campo referente à simulação;
+     * */
     private void geraContadores(Campo campo)
     {
-        redefine();
-        for(int linha = 0; linha < campo.getProfundidade(); linha++) {
+        reiniciaEstatisticas();
+        for(int linha = 0; linha < campo.getLargura(); linha++) {
             for(int coluna = 0; coluna < campo.getLargura(); coluna++) {
-                Object animal = campo.getObjectAt(linha, coluna);
+                Object animal = campo.obterObjeto(linha, coluna);
                 if(animal != null) {
                     incrementaContador(animal.getClass());
                 }
