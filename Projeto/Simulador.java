@@ -14,7 +14,11 @@ import java.awt.Color;
  *(quando todos os animais tiveram a chance de atuar) o novo estado atual do 
  *campo é exibido na tela.
  *
- *@author Guilherme
+ *Alterações:
+ * - Atualização no javadoc;
+ * - Renomeação de variáveis (Linhas 123);
+ * - Mudança nos condicionais do método povoa()
+ * - Linha 69: Remoção do método redefine().
  */
 
 public class Simulador
@@ -32,7 +36,8 @@ public class Simulador
     
     /**
      * Construtor da classe Simulador.
-     * Caso não seja atribuído nenhum parâmetro, o objeto é construído com largura e profundidade padrões.
+     * Caso não seja atribuído nenhum parâmetro, o simulador é construído com largura e profundidade
+     * padrões (50 x 50).
      */
     public Simulador()
     {
@@ -41,7 +46,6 @@ public class Simulador
     
     /**
      * Construtor da classe Simulador.
-     * - Remoção do método redefine().
      * @param profundidade Profundidade do simulador sendo > 0.
      * @param largura Largura do simulador sendo > 0.
      */
@@ -61,8 +65,6 @@ public class Simulador
         tela = new SimuladorTela(profundidade, largura);
         tela.setCor(QueroQuero.class, Color.orange);
         tela.setCor(Javali.class, Color.blue);
-        
-        redefine();
     }
     
     /**
@@ -85,7 +87,9 @@ public class Simulador
     }
     
     /**
-     * Executa a simulação de uma etapa do programa.
+     * O método cria duas novas coleções, que irão conter os novos javalis e
+     * quero-queros para então adicioná-los ao ArrayList que contém o total de
+     * javalis e quero-queros e, após, xecuta a simulação de uma etapa do programa.
      */
     public void simulacaoUmaEtapa()
     {
@@ -116,7 +120,7 @@ public class Simulador
     /**
      * Reseta a simulação.
      */
-    public void redefine()
+    public void reiniciaSimulacao()
     {
         etapa = 0;
         queroQueros.clear();
@@ -126,22 +130,22 @@ public class Simulador
     
     /**
      * Realiza a distribuição da população de javalis e quero-queros pelo campo simulado.
-     * - Mudança nos condicionais do método
      */
+    
     private void povoa()
     {
         Random rand = Randomizador.getRandom();
-        campo.limpa();
-        for(int linha = 0; linha < campo.getProfundidade(); linha++) {
+        campo.limpaCampo();
+        for(int linha = 0; linha < campo.getLargura(); linha++) {
             for(int coluna = 0; coluna < campo.getLargura(); coluna++) {
                 if(rand.nextDouble() <= PROBABILIDADE_CRIACAO_JAVALI) {
-                    Localizacao localizacao = new Localizacao(linha, coluna);
-                    Javali javali = new Javali(false, campo, localizacao);
+                    Localizacao novaLocalizacao = new Localizacao(linha, coluna);
+                    Javali javali = new Javali(false, campo, novaLocalizacao);
                     javalis.add(javali);
                 }
                 else if(rand.nextDouble() <= PROBABILIDADE_CRIACAO_QUEROQUERO) {
-                    Localizacao localizacao = new Localizacao(linha, coluna);
-                    QueroQuero queroQuero = new QueroQuero(false, campo, localizacao);
+                    Localizacao novaLocalizacao = new Localizacao(linha, coluna);
+                    QueroQuero queroQuero = new QueroQuero(false, campo, novaLocalizacao);
                     queroQueros.add(queroQuero);
                 }
             }
