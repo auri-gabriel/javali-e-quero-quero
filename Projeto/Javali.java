@@ -2,26 +2,36 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.Random;
 
+/**
+ * A classe Javali fornece os modelos de comportamentos comuns de javalis em
+ * co-existência com quero-queros em um ambiente simulado.
+ * 
+ * Alterações:
+ * - Atualização do javadoc da classe;
+ * - Linha 170: Substituição do "ou" (||) por "e" (&&) dentro do condicional if, para o método 
+ * analisar as duas condições;
+ * - Linha 178: A idade precisa ser maior ou igual a IDADE_PROCRIAÇÃO para o javali poder procriar
+ * */
 public class Javali
 {
     private static final int IDADE_PROCRIACAO = 10;
     private static final int IDADE_MAXIMA = 150;
     private static final double PROBABILIDADE_PROCRIACAO = 0.75;
     private static final int TAMANHO_MAXIMO_NINHADA = 5;
-    private static final int VALOR_FOME_QUEROQUERO = 7;
+    //private static final int VALOR_FOME_QUEROQUERO = 7;
     private static final Random rand = Randomizador.getRandom();
     
     private int idade;
     private boolean vivo;
     private Localizacao localizacao;
     private Campo campo;
-    private int nivelFome;
+    //private int nivelFome;
     
-    /*Construtor da classe, iniciada com um objeto javali com idade e nivel de fome
-    *randomicos, ou 0 se o javali tiver nascido com a simulação em adamento
-    *@param IdadeRandomica
-    *@param campo
-    *@param localizacao
+    /** Construtor da classe, iniciada com um objeto javali com idade e nível de fome
+    * randômicos, ou 0 se o javali tiver nascido com a simulação em andamento;
+    * @param um valor booleano que decide se o javali terá ou não uma idade randômica;
+    * @param o campo que está sendo simulado;
+    * @param a localização que será atribuída ao javali;
     */
     public Javali(boolean idadeRandomica, Campo campo, Localizacao localizacao)
     {
@@ -31,17 +41,19 @@ public class Javali
         setLocalizacao(localizacao);
         if(idadeRandomica) {
             idade = rand.nextInt(IDADE_MAXIMA);
-            nivelFome = rand.nextInt(VALOR_FOME_QUEROQUERO);
+            //nivelFome = rand.nextInt(VALOR_FOME_QUEROQUERO);
         }
         else {
-            nivelFome = VALOR_FOME_QUEROQUERO;
+            //nivelFome = VALOR_FOME_QUEROQUERO;
         }
     }
-    /*Método responsável por definir o javali como predador,
-    *caçando quero queros que estejam em posições adjacentes
-    *Também responsável pela procriação dos javalis
-    @param novosJavalis
-    */
+    
+    /**
+     * Define o javali enquanto predador, ca�ando quero-
+     * queros que estejam em posições adjacentes. Também
+     * responsável pela procriação dos javalis.
+     * @param lista que contém os novos javalis distribuídos no campo;
+     * */
     public void caca(List<Javali> novosJavalis)
     {
         incrementaIdade();
@@ -59,29 +71,43 @@ public class Javali
             }
         }
     }
-    /* Da um retorno se o javali está vivo.
-    */
+    
+    /**
+     * Verifica se o javali está vivo;
+     * @return true se o javali está vivo ou false se o javali está morto.
+     * */
     public boolean estaVivo()
     {
         return vivo;
     }
-    /*Informa a localização do javali
-    */
+    
+    /**
+     * Verifica a localização do javali no campo;
+     * @return objeto da classe Localizacao atribuído ao javali.
+     * */
     public Localizacao getLocalizacao()
     {
         return localizacao;
     }
     
+    /**
+     * Altera a posição do javali no campo;
+     * @param objeto da classe Localizacao que irá substituir a atual
+     * localização do javali.
+     * */
     private void setLocalizacao(Localizacao newLocalizacao)
     {
         if(localizacao != null) {
-            campo.limpa(localizacao);
+            campo.limpaCampo(localizacao);
         }
         localizacao = newLocalizacao;
         campo.lugar(this, newLocalizacao);
     }
-    //Se a idade for menor que a IDADE_MAXIMA o javali deve continuar tendo sua idade aumentada,não ao contrário.
-    //Quando o javali passa a IDADE_MAXIMA ele deve morrer.
+    
+    /**
+     * Se a idade for menor que a IDADE_MAXIMA o javali deve continuar tendo sua idade aumentada, não ao contrário.
+     * Quando o javali ultrapassa a IDADE_MAXIMA ele deve morrer
+     * */
     private void incrementaIdade()
     {
         if(idade <= IDADE_MAXIMA) {
@@ -91,8 +117,9 @@ public class Javali
             setMorte();
         }
     }
-    //Se o nivel de fome do javali foir menor ou igual a zero ele morre
-    private void incrementaFome()
+    
+    //Se o nivel de fome do javali foir menor ou igual a zero ele morre   
+    /*private void incrementaFome()
     {
         if(nivelFome <= 0) {
             setMorte();
@@ -100,8 +127,11 @@ public class Javali
         else{
               nivelFome--;
         }
-    }
-    /*Controla a ação do predaro ao procurar comida
+    }*/
+    
+    /** Controla a ação do predador ao procurar comida
+    * @param localização do javali no campo;
+    * @return 
     */
     private Localizacao procuraComida(Localizacao localizacao)
     {
@@ -109,15 +139,19 @@ public class Javali
         Iterator<Localizacao> it = adjacente.iterator();
         while(it.hasNext()) {
             Localizacao onde = it.next();
-            Object animal = campo.getObjectAt(onde);
+            Object animal = campo.obterObjeto(onde);
         	QueroQuero queroQuero = (QueroQuero) animal;
             queroQuero.setMorte();
-            nivelFome = VALOR_FOME_QUEROQUERO;
+            //nivelFome = VALOR_FOME_QUEROQUERO;
             return onde;
         }
         return null;
     }
     
+    /**
+     * Responsável pelo nascimento de novos javalis;
+     * @param lista que contém os novos javalis distribuídos no campo;
+     * */
     private void daALuz(List<Javali> novosJavalis)
     {
         List<Localizacao> livre = campo.localizacoesAdjacentesLivres(localizacao);
@@ -128,7 +162,8 @@ public class Javali
             novosJavalis.add(jovem);
         }
     }
-    //Mudaça do || por && dentro do if, para o programa análisar as duas váriaveis.
+    
+    //
     private int procria()
     {
         int nascimentos = 0;
@@ -137,24 +172,32 @@ public class Javali
         }
         return nascimentos;
     }
-    //alteração feita: A idade precisa ser maior ou igual a IDADE_PROCRIAÇÃO para o javali poder procriar
+    
+    /**
+     * Verifica se o javali pode procriar;
+     * @return true caso o javali esteja dentro da idade para
+     * procriar ou false caso ele não esteja.
+     * */
     private boolean podeProcriar()
-    {
-        if(idade >= IDADE_PROCRIACAO)
+    {	
+    	return idade < IDADE_PROCRIACAO;
+        /*if(idade <= IDADE_PROCRIACAO)
         {
             return true;
         }
-        else{
-            return false;
-        }
+        else 
+            return false;*/   
     }
-    /*Remove o objeto quando uma das suas variaveis de morte é realizada
-    */
+    	
+    /**
+     * Atribui o status morto para o javali, removendo seus vestígios
+     * do campo simulado;
+     * */
     private void setMorte()
     {
         vivo = false;
         if(localizacao != null) {
-            campo.limpa(localizacao);
+            campo.limpaCampo(localizacao);
             localizacao = null;
             campo = null;
         }
