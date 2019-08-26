@@ -2,8 +2,17 @@ import java.util.List;
 import java.util.Random;
 
 /**
-* A classe Quero-Quero fornece um modelo simples do comportamento de uma presa. 
-*/
+ * A classe QueroQuero fornece um modelo simples do comportamento dos
+ * quero-queros dentro de um campo simulado, em coexistência com javalis,
+ * ilustrando situações típicas entre predador e presa.
+ * 
+ * * Alterações:
+ * - Renomeação de variáveis;
+ * - Atualização do javadoc da classe;
+ * - Alteração do operador lógico "igual" (==) para "diferente" (!=), na linha 56;
+ * - Alteração do operador lógico "ou" (||) para "e" (&&), na linha 133;
+ * - Alteração do operador lógico "ou" (||) para "e" (&&), na linha 148;
+ **/
 public class QueroQuero
 {
     private static final int IDADE_PROCRIACAO = 5;
@@ -16,56 +25,54 @@ public class QueroQuero
     private boolean vivo;
     private Localizacao localizacao;
     private Campo campo;
-
+    
     /**
-     * Construtor da classe QueroQuero
-     * @param randomAge   define se o objeto vai ter uma idade aleatoria
-     * @param campo       define o campo do objeto
-     * @param localizacao define a localização do objeto
-     */
-    public QueroQuero(boolean randomAge, Campo campo, Localizacao localizacao)
+     * Método construtor da classe QueroQuero;
+     * @param um valor booleano que decide se o quero-quero terá ou não uma idade randômica;
+     * @param o campo que está sendo simulado;
+     * @param a localização que será atribuída ao javali.
+     * */
+    public QueroQuero(boolean idadeRandomica, Campo campo, Localizacao localizacao)
     {
         idade = 0;
         vivo = true;
         this.campo = campo;
         setLocalizacao(localizacao);
-        if(randomAge) {
+        if(idadeRandomica) {
             idade = rand.nextInt(IDADE_MAXIMA);
         }
     }
     
     /**
-     * Realiza a movimentação do queroquero no campo.
-	 * @param novosQueroQueros uma lista de novos queroqueros
-     */
+     * Fornece o modelo de comportamento de voo do quero-quero pelo campo simulado;
+     * @param a coleção de novos quero-queros;
+     * */
     public void voa(List<QueroQuero> novosQueroQueros)
     {
         incrementaIdade();
         if(vivo) {
             chocaOvos(novosQueroQueros);            
-            Localizacao newLocalizacao = campo.localizacaoAdjacenteLivre(localizacao);
-            if(newLocalizacao != null) { 
+            Localizacao novaLocalizacao = campo.localizacaoAdjacenteLivre(localizacao);
+            if(novaLocalizacao != null) 
                 setMorte();
-            }
-            else {
-                setLocalizacao(newLocalizacao);
-            }
+            else 
+                setLocalizacao(novaLocalizacao);
         }
     }
     
-    
     /**
-     * Informa se o objeto QueroQuero está vivo
-     * @return vivo
-     */    
+     * Verifica se o quero-quero está vivo;
+     * @return true se o quero-quero está vivo ou false se o quero-quero está morto;
+     * */
     public boolean estaViva()
     {
         return vivo;
     }
     
     /**
-     * Define o objeto queroquero como morto e limpa a sua localizacao.
-     */    
+     * Atribui o status morto para o quero-quero, removendo seus vestígios
+     * do campo simulado;
+     * */
     public void setMorte()
     {
         vivo = false;
@@ -77,72 +84,73 @@ public class QueroQuero
     }
     
     /**
-     * Informa a localização do QueroQuero.
-     * @return localizacao
-     */    
+     * Verifica a localização do quero-quero no campo;
+     * @return objeto da classe Localizacao atribuído ao quero-quero.
+     * */
     public Localizacao getLocalizacao()
     {
         return localizacao;
     }
     
     /**
-     * Modifica a localização do queroquero.
-     * @param newLocalizacao a nova localizacao do queroquero
-     */
+     * Altera a posição do quero-quero no campo;
+     * @param objeto da classe Localizacao que irá substituir a atual
+     * localização do quero-quero.
+
+     * */
     private void setLocalizacao(Localizacao newLocalizacao)
     {
-        if(localizacao != null) {
+        if(localizacao != null) 
             campo.limpa(localizacao);
-        }
         localizacao = newLocalizacao;
         campo.lugar(this, newLocalizacao);
     }
 
     /**
-     * Incrementa a idade do QueroQuero
-     * se a idade for maior que a idade maxima, define o queroquero como morto
-     */
+     * Incrementa a idade do quero-quero. Se a idade for menor ou igual 
+     * a idade máxima, aumenta a idade, senão define como morto.
+     * */
     private void incrementaIdade()
     {
-        if(idade <= IDADE_MAXIMA) {
+        if(idade <= IDADE_MAXIMA) 
             idade++;
-        }else{
-            setMorte();
-        }
+        else
+            setMorte();       
     }
     
-   /**
-     * Realiza os nascimentos de novos queroqueros.
-	 * @param novosQueroQueros uma lista de novos queroqueros
-     */
+    /**
+     * Método responsável pela distribuição dos quero-queros recém-nascidos no campo;
+     * @param lista que contém os novos quero-queros distribuídos no campo;
+     * */
     private void chocaOvos(List<QueroQuero> novosQueroQueros)
     {
         List<Localizacao> livre = campo.localizacoesAdjacentesLivres(localizacao);
         int nascimentos = procria();
-        for(int b = 0; b < nascimentos && livre.size() > 0; b++) {
-            Localizacao loc = livre.remove(0);
-            QueroQuero jovem = new QueroQuero(false, campo, loc);
+        for(int aux = 0; aux < nascimentos && livre.size() > 0; aux++) {
+            Localizacao localizacaoLivre = livre.remove(0);
+            QueroQuero jovem = new QueroQuero(false, campo, localizacaoLivre);
             novosQueroQueros.add(jovem);
         }
     }
     
     /**
-     * Gera um numero aleatorio de nascimentos.
-     * @return nascimentos  numero de nascimentos que ocorrerão.
-     */
+     * Método responsável pelo nascimento de novos quero-queros, considerando o índice de
+     * probabilidade de novos nascimentos;
+     * @return o número de nascimentos de quero-queros;
+     * */
     private int procria()
     {
         int nascimentos = 0;
-        if(podeProcriar() && rand.nextDouble() <= PROBABILIDADE_PROCRIACAO) {
+        if(podeProcriar() && rand.nextDouble() > PROBABILIDADE_PROCRIACAO) {
             nascimentos = rand.nextInt(TAMANHO_MAXIMO_NINHADA) + 1;
         }
         return nascimentos;
     }
-
+    
     /**
-     * informa se o  QueroQuero pode procriar.
-     * @return true se a idade for maior ou igual a idade de procriação.
-     */
+     * Verifica se o quero-quero está apto a procriar;
+     * @return true se o quero-quero pode procriar, senão retorna false;
+     * */
     private boolean podeProcriar()
     {
         return idade >= IDADE_PROCRIACAO;
