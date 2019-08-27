@@ -8,9 +8,9 @@ import java.util.Random;
  * 
  * Alterações:
  * - Atualização do javadoc da classe;
- * - Linha 166: Substituição do "ou" (||) por "e" (&&) dentro do condicional if, para o método 
+ * - Linha 172: Substituição do "ou" (||) por "e" (&&) dentro do condicional if, para o método 
  * analisar as duas condições;
- * - Linha 178: A idade precisa ser maior ou igual a IDADE_PROCRIAÇÃO para o javali poder procriar
+ * - Linha 184: A idade precisa ser maior ou igual a IDADE_PROCRIAÇÃO para o javali poder procriar
  * */
 public class Javali
 {
@@ -116,7 +116,10 @@ public class Javali
             setMorte();
     }
     
-    //Se o nivel de fome do javali foir menor ou igual a zero ele morre   
+    /**
+     * Controla o nível de fome dos javalis. Caso o nível de fome caia para menos de 
+     * 0, o javali morre;
+     * */  
     private void incrementaFome()
     {
         if(nivelFome <= 0) 
@@ -159,7 +162,10 @@ public class Javali
         }
     }
     
-    //
+    /**
+     * Responspavel pelo comportamento de procriação dos javalis;
+     * @param número de nascimentos;
+     * */
     private int procria()
     {
         int nascimentos = 0;
