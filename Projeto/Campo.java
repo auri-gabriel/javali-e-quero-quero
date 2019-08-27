@@ -14,7 +14,6 @@ import java.util.Random;
  * - Remoção do import java.util.Iterator por não estar sendo
  * utilizado nessa classe;
  * - Renomeação de variáveis;
- * 
  * */
 public class Campo
 {
@@ -81,9 +80,9 @@ public class Campo
      * Retorna um objeto na localização desejada;
      * @param a localização desejada;
      * */
-    public Object obterObjeto(Localizacao localizacao)
+    public Object getObjetoEm(Localizacao localizacao)
     {
-        return obterObjeto(localizacao.getLinha(), localizacao.getColuna());
+        return getObjetoEm(localizacao.getLinha(), localizacao.getColuna());
     }
     
     /**
@@ -91,13 +90,16 @@ public class Campo
      * @param uma linha do campo;
      * @param uma coluna do campo;
      * */
-    public Object obterObjeto(int linha, int coluna)
+    public Object getObjetoEm(int linha, int coluna)
     {
         return campo[linha][coluna];
     }
     
     /**
-     * 
+     * Captura uma localização randômica adjacente à localização passada
+     * como parâmetro;
+     * @param um objeto da classe Localizacao;
+     * @return uma localização randomica;
      * */
     public Localizacao localizacaoAdjacenteRandomica(Localizacao localizacao)
     {
@@ -105,22 +107,32 @@ public class Campo
         return adjacent.get(0);
     }
     
+    /**
+     * Captura as localizações livres ao redor da localização passada como parâmetro;
+     * @param um objeto da classe Localizacao;
+     * @return uma localização randomica;
+     * */
     public List<Localizacao> localizacoesAdjacentesLivres(Localizacao localizacao)
     {
         List<Localizacao> livre = new LinkedList<Localizacao>();
         List<Localizacao> adjacente = localizacoesAdjacentes(localizacao);
         for(Localizacao proximo : adjacente) {
-            if(obterObjeto(proximo) == null) {
+            if(getObjetoEm(proximo) == null) {
                 livre.add(proximo);
             }
         }
         return livre;
     }
-    //A localização não deve ter um numero menor ou igual a 0 para estar livre?
+    
+    /**
+     * Retorna uma localização livre ao redor da localização passada como parâmetro;
+     * @param um objeto da classe Localizacao;
+     * @return uma localização livre. Caso não haja localização livre, retorna null;
+     * */
     public Localizacao localizacaoAdjacenteLivre(Localizacao localizacao)
     {
         List<Localizacao> livre = localizacoesAdjacentesLivres(localizacao);
-        if(livre.size() <= 0) {
+        if(livre.size() > 0) {
             return livre.get(0);
         }
         else {
@@ -128,26 +140,28 @@ public class Campo
         }
     }
 
+    /**
+     * Captura as localizações adjacentes à localização passada como parâmetro;
+     * @param localização;
+     * @return Uma coleção contendo as localizações adjacentes;
+     * */
     public List<Localizacao> localizacoesAdjacentes(Localizacao localizacao)
     {
         assert localizacao != null : "Null localizacao passed to adjacentLocalizacoes";
         List<Localizacao> localizacoes = new LinkedList<Localizacao>();
-        if(localizacao != null) {
-            int linha = localizacao.getLinha();
+        	int linha = localizacao.getLinha();
             int coluna = localizacao.getColuna();
-            for(int roffset = -1; roffset <= 1; roffset++) {
-                int proximaLinha = linha + roffset;
-                if(proximaLinha >= 0 && proximaLinha < altura) {
-                    for(int coffset = -1; coffset <= 1; coffset++) {
-                        int proximaColuna = coluna + coffset;
-                        if(proximaColuna >= 0 && proximaColuna < largura && (roffset != 0 || coffset != 0)) {
-                            localizacoes.add(new Localizacao(proximaLinha, proximaColuna));
-                        }
+            for(int linhaOffset = -1; linhaOffset <= 1; linhaOffset++) {
+            	for(int colunaOffset = -1; colunaOffset <= 1; colunaOffset++) {
+            		int proximaLinha = linha + linhaOffset;
+            		if(proximaLinha >= 0 && proximaLinha < altura) {                  
+            			int proximaColuna = coluna + colunaOffset;
+                        if(proximaColuna >= 0 && proximaColuna < largura && (linhaOffset != 0 || colunaOffset != 0)) 
+                            localizacoes.add(new Localizacao(proximaLinha, proximaColuna));                       
                     }
                 }
             }
             Collections.shuffle(localizacoes, rand);
-        }
         return localizacoes;
     }
     
