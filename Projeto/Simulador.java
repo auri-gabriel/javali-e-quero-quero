@@ -16,9 +16,9 @@ import java.awt.Color;
  *
  *Alterações:
  * - Atualização no javadoc;
- * - Renomeação de variáveis (Linhas 123);
+ * - Renomeação de variáveis;
  * - Mudança nos condicionais do método povoa()
- * - Linha 69: Remoção do método redefine().
+ * - Linha 68: Remoção do método redefine().
  */
 
 public class Simulador
@@ -46,23 +46,23 @@ public class Simulador
     
     /**
      * Construtor da classe Simulador.
-     * @param profundidade Profundidade do simulador sendo > 0.
+     * @param altura Profundidade do simulador sendo > 0.
      * @param largura Largura do simulador sendo > 0.
      */
-    public Simulador(int profundidade, int largura)
+    public Simulador(int altura, int largura)
     {
-        if(largura <= 0 && profundidade <= 0) { 
+        if(largura <= 0 && altura <= 0) { 
             System.out.println("As dimensões devem ser maior do que zero.");
             System.out.println("Usando valores padrões.");
-            profundidade = PROFUNDIDADE_PADRAO;
+            altura = PROFUNDIDADE_PADRAO;
             largura = LARGURA_PADRAO;
         }
         
         queroQueros = new ArrayList<QueroQuero>();
         javalis = new ArrayList<Javali>();
-        campo = new Campo(profundidade, largura);
+        campo = new Campo(altura, largura);
 
-        tela = new SimuladorTela(profundidade, largura);
+        tela = new SimuladorTela(altura, largura);
         tela.setCor(QueroQuero.class, Color.orange);
         tela.setCor(Javali.class, Color.blue);
     }
@@ -81,23 +81,23 @@ public class Simulador
      */
     public void simulacao(int numEtapas)
     {
-        for(int etapa = 1; etapa <= numEtapas && tela.ehViavel(campo); etapa++) {
-            simulacaoUmaEtapa();
+        for(int etapa = 0; etapa <= numEtapas && tela.ehViavel(campo); etapa++) {
+        	simulacaoUmaEtapa();
         }
     }
     
     /**
      * O método cria duas novas coleções, que irão conter os novos javalis e
      * quero-queros para então adicioná-los ao ArrayList que contém o total de
-     * javalis e quero-queros e, após, xecuta a simulação de uma etapa do programa.
+     * javalis e quero-queros e, após, executa a simulação de uma etapa do programa.
      */
     public void simulacaoUmaEtapa()
     {
-        List<QueroQuero> novosQueroQueros = new ArrayList<QueroQuero>();        
+    	List<QueroQuero> novosQueroQueros = new ArrayList<QueroQuero>();        
         for(Iterator<QueroQuero> it = queroQueros.iterator(); it.hasNext(); ) {
             QueroQuero queroQuero = it.next();
             queroQuero.voa(novosQueroQueros);
-            if(queroQuero.estaViva()) {
+            if(!queroQuero.estaViva()) {
                 it.remove();
             }
         }
@@ -106,7 +106,7 @@ public class Simulador
         for(Iterator<Javali> it = javalis.iterator(); it.hasNext(); ) {
             Javali javali = it.next();
             javali.caca(novosJavalis);
-            if(javali.estaVivo()) {
+            if(!javali.estaVivo()) {
                 it.remove();
             }
         }
@@ -125,25 +125,26 @@ public class Simulador
         etapa = 0;
         queroQueros.clear();
         javalis.clear();
-        tela.mostraStatus(etapa, campo);
+        povoa();
+        tela.mostraStatus(etapa, campo);   
     }
     
     /**
      * Realiza a distribuição da população de javalis e quero-queros pelo campo simulado.
      */
     
-    private void povoa()
+    public void povoa()
     {
-        Random rand = Randomizador.getRandom();
-        campo.limpaCampo();
-        for(int linha = 0; linha < campo.getLargura(); linha++) {
+        Random numRandomico = Randomizador.getRandom();
+        campo.limpa();
+        for(int linha = 0; linha < campo.getAltura(); linha++) {
             for(int coluna = 0; coluna < campo.getLargura(); coluna++) {
-                if(rand.nextDouble() <= PROBABILIDADE_CRIACAO_JAVALI) {
+                if(numRandomico.nextDouble() <= PROBABILIDADE_CRIACAO_JAVALI) {
                     Localizacao novaLocalizacao = new Localizacao(linha, coluna);
                     Javali javali = new Javali(false, campo, novaLocalizacao);
                     javalis.add(javali);
                 }
-                else if(rand.nextDouble() <= PROBABILIDADE_CRIACAO_QUEROQUERO) {
+                else if(numRandomico.nextDouble() <= PROBABILIDADE_CRIACAO_QUEROQUERO) {
                     Localizacao novaLocalizacao = new Localizacao(linha, coluna);
                     QueroQuero queroQuero = new QueroQuero(false, campo, novaLocalizacao);
                     queroQueros.add(queroQuero);
