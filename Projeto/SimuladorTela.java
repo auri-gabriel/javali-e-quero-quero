@@ -5,16 +5,16 @@ import java.util.Map;
 
 /**
  * A classe SimuladorTela fornece uma visão gráfica do estado do campo.
- * 
- * Alterações:
- * - Remoção do import java.awt.event por não estar sendo utilizado
- * nesta classe;
- * - Renomeação de variáveis;
+ *
+ * * Alterações:
+ * - Remoção do import java.awt.event;
+ * - Renomeação de variáveis e métodos;
  */
+ 
 public class SimuladorTela extends JFrame
 {
-	private static final long serialVersionUID = 1L;
-	private static final Color COR_VAZIA = Color.white;
+    private static final long serialVersionUID = 1L;
+    private static final Color COR_VAZIA = Color.white;
     private static final Color COR_INDEFINIDA = Color.gray;
 
     private final String PREFIXO_ETAPA = "Etapa: ";
@@ -24,13 +24,13 @@ public class SimuladorTela extends JFrame
     
     private Map<Class <?>, Color> cores;
     private CampoEstatistica estatisticas;
-    
-    /**
+
+   /**
      * Construtor da classe SimuladorTela;
-     * @param height Altura do simulador;
-     * @param width Largura do simulador.
+     * @param altura Altura do simulador;
+     * @param largura Largura do simulador.
      */
-    public SimuladorTela(int height, int width)
+    public SimuladorTela(int altura, int largura) 
     {
         estatisticas = new CampoEstatistica();
         cores = new LinkedHashMap<Class <?>, Color>();
@@ -38,10 +38,10 @@ public class SimuladorTela extends JFrame
         setTitle("Simulacao Quero-Queros e Javalis");
         rotuloEtapa = new JLabel(PREFIXO_ETAPA, JLabel.CENTER);
         populacao = new JLabel(PREFIXO_POPULACAO, JLabel.CENTER);
-        
+
         setLocation(100, 50);
-        
-        visaoCampo = new VisaoCampo(height, width);
+
+        visaoCampo = new VisaoCampo(altura, largura);
 
         Container conteudos = getContentPane();
         conteudos.add(rotuloEtapa, BorderLayout.NORTH);
@@ -53,21 +53,21 @@ public class SimuladorTela extends JFrame
     
     /**
      * Altera a cor de determinada classe de animal na simulação;
-     * @param animalClass Classe de animal;
-     * @param color Cor escolhida.
+     * @param classeAnimal Classe de animal;
+     * @param cor Cor escolhida.
      */
-    public void setCor(Class<?> animalClass, Color color)
+    public void setCor(Class <?> classeAnimal, Color cor)
     {
-        cores.put(animalClass, color);
+        cores.put(classeAnimal, cor);
     }
-
+    
     /**
      * Retorna a cor que representa determinada classe de animal na simulação;
-     * @param animalClass Classe de animal;
+     * @param classeAnimal Classe de animal;
      */
-    private Color getCor(Class<?> animalClass)
+    public Color getCor(Class <?> classeAnimal)
     {
-        Color coluna = cores.get(animalClass);
+        Color coluna = cores.get(classeAnimal);
         if(coluna == null) {
             return COR_INDEFINIDA;
         }
@@ -89,130 +89,122 @@ public class SimuladorTela extends JFrame
         
         rotuloEtapa.setText(PREFIXO_ETAPA + etapa);
         estatisticas.reiniciaEstatisticas();
-        
-        visaoCampo.preparePaint();
 
-        for(int row = 0; row < campo.getLargura(); row++) {
-            for(int col = 0; col < campo.getLargura(); col++) {
-                Object animal = campo.obterObjeto(row, col);
+        visaoCampo.prepararPintura();
+
+        for(int linha = 0; linha < campo.getAltura(); linha++) {
+            for(int coluna = 0; coluna < campo.getLargura(); coluna++) {
+                Object animal = campo.getObjetoEm(linha, coluna);
                 if(animal != null) {
                     estatisticas.incrementaContador(animal.getClass());
-                    visaoCampo.drawMark(col, row, getCor(animal.getClass()));
+                    visaoCampo.desenharMarca(coluna, linha, getCor(animal.getClass()));
                 }
-                else {
-                    visaoCampo.drawMark(col, row, COR_VAZIA);
-                }
+                else
+                    visaoCampo.desenharMarca(coluna, linha, COR_VAZIA);
             }
         }
         estatisticas.contadorFinalizado();
 
         populacao.setText(PREFIXO_POPULACAO + estatisticas.obterDetalhesPopulacao(campo));
-        visaoCampo.repaint();
     }
     
     /**
-     * Retorna um valor booleano que indica se o campo que foi simulado é viável 
-     * ou não para a manutenção das duas espécies;
+     * Retorna um valor booleano que indica se o campo que foi simulado é viável ou não para a manutenção das duas espécies;
      * @param campo Campo utilizado para a simulação;
      * @return True caso o campo seja viável ou false caso o campo não seja viável.
      */
+    
     public boolean ehViavel(Campo campo)
     {
         return estatisticas.ehViavel(campo);
     }
     
     /**
-     * A classe VisaoCampo é responsável pelo gerenciamento dos métodos e atributos
-     * que compõem a interface gráfica da simulação;
-     * - Alteração no encapsulamento da classe VisaoCampo, de private para public.
+     * A classe VisaoCampo é responsável pelo gerenciamento dos métodos e atributos que compõem a interface gráfica da simulação;
      */
-    private class VisaoCampo extends JPanel
+    public class VisaoCampo extends JPanel
     {
-		private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-		private final int GRID_VIEW_SCALING_FACTOR = 6;
+        private final int FATOR_ESCALA_VISAO_GRADE = 6;
 
-        private int gridWidth, gridHeight;
-        private int xScale, yScale;
-        Dimension size;
-        private Graphics g;
-        private Image fieldImage;
+        private int larguraGrade, alturaGrade;
+        private int escalaX, escalaY;
+        Dimension tamanho;
+        private Graphics grafico;
+        private Image imagemCampo;
         
         /**
          * Construtor da classe VisaoCampo;
-         * @param height Altura do campo;
-         * @param width Largura do campo;
+         * @param altura Altura do campo;
+         * @param largura Largura do campo;
          */
-        public VisaoCampo(int height, int width)
+        public VisaoCampo(int altura, int largura)
         {
-            gridHeight = height;
-            gridWidth = width;
-            size = new Dimension(0, 0);
+            alturaGrade = altura;
+            larguraGrade = largura;
+            tamanho = new Dimension(0, 0);
         }
         
         /**
-         * Retorna um novo valor para o dimensionamento do campo, 
-         * utilizando como parâmetros o valor da multiplicação
-         * entre a altura e a constante de fator de escala de
-         * exibição da grade e a largura e a constante de fator 
-         * de escala de exibição da grade;
-         * @return novo valor para o dimensionamento
+         * Retorna um novo valor para o dimensionamento do campo, sendo passados dois parâmetros:
+         * o valor da multiplicação entre a largura da grade e o fator de escala de exibição da grade e
+         * o valor da multiplicação entre a altura e o fator de escala de exibição da grade.
+         * @return novo dimensionamento;
          */
-        public Dimension getPreferredSize()
+        public Dimension obterTamanhoPreferido()
         {
-            return new Dimension(gridWidth * GRID_VIEW_SCALING_FACTOR,
-                                 gridHeight * GRID_VIEW_SCALING_FACTOR);
+            return new Dimension(larguraGrade * FATOR_ESCALA_VISAO_GRADE, 
+                        alturaGrade * FATOR_ESCALA_VISAO_GRADE);
         }
         
         /**
          * Atribui as dimensões de escala para os valores x e y, que serão
          * utilizados para a construção do desenho na imagem.
          */
-        public void preparePaint()
+        public void prepararPintura()
         {
-            if(! size.equals(getSize())) {
-                size = getSize();
-                fieldImage = visaoCampo.createImage(size.width, size.height);
-                g = fieldImage.getGraphics();
+            if(! tamanho.equals(getSize())) {
+                tamanho = getSize();
+                imagemCampo = visaoCampo.createImage(tamanho.width, tamanho.height);
+                grafico = imagemCampo.getGraphics();
 
-                xScale = size.width / gridWidth;
-                if(xScale < 1) {
-                    xScale = GRID_VIEW_SCALING_FACTOR;
+                escalaX = tamanho.width / larguraGrade;
+                if(escalaX < 1) {
+                    escalaX = FATOR_ESCALA_VISAO_GRADE;
                 }
-                yScale = size.height / gridHeight;
-                if(yScale < 1) {
-                    yScale = GRID_VIEW_SCALING_FACTOR;
+                escalaY = tamanho.height / alturaGrade;
+                if(escalaY < 1) {
+                    escalaY = FATOR_ESCALA_VISAO_GRADE;
                 }
             }
         }
-
+        
         /**
-         * Atribui a cor e o posicionamento do quadrado na tela, que representa 
+         * Atribui a cor e o posicionamento do retângulo na tela, que representa 
          * a posição de um javali ou quero-quero no campo;
          * @param x A posição x do quadrado a ser pintado;
          * @param y A posição y do quadrado a ser pintado; 
-         * @param color A cor do quadrado. 
+         * @param cor A cor do quadrado. 
          */
-        public void drawMark(int x, int y, Color color)
+        public void desenharMarca(int x, int y, Color cor)
         {
-            g.setColor(color);
-            g.fillRect(x * xScale, y * yScale, xScale-1, yScale-1);
+            grafico.setColor(cor);
+            grafico.fillRect(x * escalaX, y * escalaY, escalaX-1, escalaY-1);
         }
         
         /**
          * Cria a imagem na tela;
-         * @param g Imagem que será carregada.
+         * @param Imagem que será carregada.
          */
-        public void paintComponent(Graphics g)
+        public void pintarComponente(Graphics grafico)
         {
-            if(fieldImage != null) {
-                Dimension currentSize = getSize();
-                if(size.equals(currentSize)) {
-                    g.drawImage(fieldImage, 0, 0, null);
-                }
-                else {
-                    g.drawImage(fieldImage, 0, 0, currentSize.width, currentSize.height, null);
-                }
+            if(imagemCampo != null) {
+                Dimension tamanhoAtual = getSize();
+                if(tamanho.equals(tamanhoAtual)) 
+                    grafico.drawImage(imagemCampo, 0, 0, null);
+                else 
+                    grafico.drawImage(imagemCampo, 0, 0, tamanhoAtual.width, tamanhoAtual.height, null);
             }
         }
     }
