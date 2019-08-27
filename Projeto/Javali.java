@@ -8,7 +8,7 @@ import java.util.Random;
  * 
  * Alterações:
  * - Atualização do javadoc da classe;
- * - Linha 16: Substituição do "ou" (||) por "e" (&&) dentro do condicional if, para o método 
+ * - Linha 166: Substituição do "ou" (||) por "e" (&&) dentro do condicional if, para o método 
  * analisar as duas condições;
  * - Linha 178: A idade precisa ser maior ou igual a IDADE_PROCRIAÇÃO para o javali poder procriar
  * */
