@@ -38,7 +38,7 @@ public class Campo
     /**
      * Limpa a área total do campo
      * */
-    public void limpaCampo()
+    public void limpa()
     {
         for(int linha = 0; linha < altura; linha++) {
             for(int coluna = 0; coluna < largura; coluna++) {
@@ -51,7 +51,7 @@ public class Campo
      * Limpa a área atribuída a determinado objeto da classe Localizacao;
      * @param a localização desejada;
      * */
-    public void limpaCampo(Localizacao localizacao)
+    public void limpa(Localizacao localizacao)
     {
         campo[localizacao.getLinha()][localizacao.getColuna()] = null;
     }
