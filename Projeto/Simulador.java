@@ -16,8 +16,9 @@ import java.awt.Color;
  *
  *Alterações:
  * - Atualização no javadoc;
- * - Renomeação de variáveis;
- * - Mudança nos condicionais do método povoa();
+ * - Renomeação de variáveis (Linhas 123);
+ * - Mudança nos condicionais do método povoa()
+ * - Linha 69: Remoção do método redefine().
  */
 
 public class Simulador
@@ -89,7 +90,7 @@ public class Simulador
     /**
      * O método cria duas novas coleções, que irão conter os novos javalis e
      * quero-queros para então adicioná-los ao ArrayList que contém o total de
-     * javalis e quero-queros e, após, executa a simulação de uma etapa do programa.
+     * javalis e quero-queros e, após, xecuta a simulação de uma etapa do programa.
      */
     public void simulacaoUmaEtapa()
     {
@@ -122,11 +123,13 @@ public class Simulador
      */
     public void reiniciaSimulacao()
     {
+    
         etapa = 0;
         queroQueros.clear();
         javalis.clear();
         povoa();
-        tela.mostraStatus(etapa, campo);   
+        tela.mostraStatus(etapa, campo);
+        
     }
     
     /**
@@ -135,21 +138,26 @@ public class Simulador
     
     public void povoa()
     {
-        Random numRandomico = Randomizador.getRandom();
+        Random rand = Randomizador.getRandom();
         campo.limpa();
         for(int linha = 0; linha < campo.getAltura(); linha++) {
             for(int coluna = 0; coluna < campo.getLargura(); coluna++) {
-                if(numRandomico.nextDouble() <= PROBABILIDADE_CRIACAO_JAVALI) {
+                if(rand.nextDouble() <= PROBABILIDADE_CRIACAO_JAVALI) {
                     Localizacao novaLocalizacao = new Localizacao(linha, coluna);
                     Javali javali = new Javali(false, campo, novaLocalizacao);
                     javalis.add(javali);
                 }
-                else if(numRandomico.nextDouble() <= PROBABILIDADE_CRIACAO_QUEROQUERO) {
+                else if(rand.nextDouble() <= PROBABILIDADE_CRIACAO_QUEROQUERO) {
                     Localizacao novaLocalizacao = new Localizacao(linha, coluna);
                     QueroQuero queroQuero = new QueroQuero(false, campo, novaLocalizacao);
                     queroQueros.add(queroQuero);
                 }
             }
         }
+    }
+    
+    public static void main(String [] args) {
+    	Simulador s = new Simulador(100,100);
+    	s.simulacao(500);
     }
 }
