@@ -1,43 +1,30 @@
 import java.util.Random;
 
 /**
-* A classe Randomizador fornece um grau de controle sobre os aspectos aleatórios da simulação.
-*/
+ * A classe Randomizador fornece um grau de controle sobre 
+ * os aspectos aleatórios da simulação.
+ * */
 public class Randomizador
 {
     private static final int SEED = 1111;
-    private static final Random rand = new Random(SEED);
-    private static final boolean useShared = true;
-
-    /**
-    * Construtor da classe Randomizador.
-    */
-    public Randomizador()
-    {
-
-    }
+    private static final Random numRandomico = new Random();
+    private static final boolean numCompartilhado = false;
     
     /**
-     * Fornece um número aleatório.
-     * @return um número aleatório.
-     */
+     * Obtém um número aleatório;
+     * Se o número já existir, retorna um novo;
+     * */
     public static Random getRandom()
     {
-        if(useShared) {
-            return rand;
-        }
-        else {
+        if(numCompartilhado)
+            return numRandomico;     
+        else 
             return new Random();
-        }
     }
     
-    /** Reseta o objeto
-    *   se useShared é verdadeiro, o objeto rand volta a usar a variável SEED como Seed.
-    */
     public static void reset()
     {
-        if(useShared) {
-            rand.setSeed(SEED);
-        }
+        if(numCompartilhado)
+            numRandomico.setSeed(SEED);
     }
 }
