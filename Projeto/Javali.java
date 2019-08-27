@@ -8,9 +8,9 @@ import java.util.Random;
  * 
  * Alterações:
  * - Atualização do javadoc da classe;
- * - Linha 173: Substituição do "ou" (||) por "e" (&&) dentro do condicional if, para o método 
+ * - Linha 16: Substituição do "ou" (||) por "e" (&&) dentro do condicional if, para o método 
  * analisar as duas condições;
- * - Linha 186: A idade precisa ser maior ou igual a IDADE_PROCRIAÇÃO para o javali poder procriar
+ * - Linha 178: A idade precisa ser maior ou igual a IDADE_PROCRIAÇÃO para o javali poder procriar
  * */
 public class Javali
 {
@@ -19,7 +19,7 @@ public class Javali
     private static final double PROBABILIDADE_PROCRIACAO = 0.75;
     private static final int TAMANHO_MAXIMO_NINHADA = 5;
     private static final int VALOR_FOME_QUEROQUERO = 7;
-    private static final Random numRandomico = Randomizador.getRandom();
+    private static final Random rand = Randomizador.getRandom();
     
     private int idade;
     private boolean vivo;
@@ -40,7 +40,7 @@ public class Javali
         this.campo = campo;
         setLocalizacao(localizacao);
         if(idadeRandomica) {
-            idade = numRandomico.nextInt(IDADE_MAXIMA);
+            idade = rand.nextInt(IDADE_MAXIMA);
             nivelFome = rand.nextInt(VALOR_FOME_QUEROQUERO);
         }
         else {
@@ -49,7 +49,7 @@ public class Javali
     }
     
     /**
-     * Define o javali enquanto predador, ca�ando quero-
+     * Define o javali enquanto predador, caçando quero-
      * queros que estejam em posições adjacentes. Também
      * responsável pela procriação dos javalis.
      * @param lista que contém os novos javalis distribuídos no campo;
@@ -57,18 +57,19 @@ public class Javali
     public void caca(List<Javali> novosJavalis)
     {
         incrementaIdade();
+        incrementaFome();
         if(vivo) {
             daALuz(novosJavalis);            
             Localizacao newLocalizacao = procuraComida(localizacao);
-            if(newLocalizacao == null) { 
+            if(newLocalizacao == null) 
                 newLocalizacao = campo.localizacaoAdjacenteLivre(localizacao);
-            }
+                
             if(newLocalizacao != null) {
                 setLocalizacao(newLocalizacao);
             }
-            else {
+            else 
                 setMorte();
-            }
+            
         }
     }
     
@@ -97,9 +98,8 @@ public class Javali
      * */
     private void setLocalizacao(Localizacao newLocalizacao)
     {
-        if(localizacao != null) {
+        if(localizacao != null) 
             campo.limpa(localizacao);
-        }
         localizacao = newLocalizacao;
         campo.lugar(this, newLocalizacao);
     }
@@ -116,10 +116,7 @@ public class Javali
             setMorte();
     }
     
-    /**
-     * Incrementa o nível de fome de um javali. Caso o nível de fome esteja abaixo de 0,
-     * o animal morre;
-     * */
+    //Se o nivel de fome do javali foir menor ou igual a zero ele morre   
     private void incrementaFome()
     {
         if(nivelFome <= 0) 
@@ -141,7 +138,7 @@ public class Javali
             Object animal = campo.getObjetoEm(onde);
         	QueroQuero queroQuero = (QueroQuero) animal;
             queroQuero.setMorte();
-            //nivelFome = VALOR_FOME_QUEROQUERO;
+            nivelFome = VALOR_FOME_QUEROQUERO;
             return onde;
         }
         return null;
@@ -155,24 +152,19 @@ public class Javali
     {
         List<Localizacao> livre = campo.localizacoesAdjacentesLivres(localizacao);
         int nascimentos = procria();
-        for(int aux = 0; aux < nascimentos; aux++) {
-            Localizacao localizacaoLivre = livre.remove(0);
-            Javali jovem = new Javali(false, campo, localizacaoLivre);
+        for(int b = 0; b < nascimentos; b++) {
+            Localizacao loc = livre.remove(0);
+            Javali jovem = new Javali(false, campo, loc);
             novosJavalis.add(jovem);
         }
     }
     
-    /**
-     * Responsável por gerenciar o comportamento da procriação dos javalis;
-     * @return o número de nascimentos, baseado na probabilidade de procriação
-     * e do tamanho máximo da ninhada;
-     * */
+    //
     private int procria()
     {
         int nascimentos = 0;
-        if(podeProcriar() == true && numRandomico.nextDouble() < PROBABILIDADE_PROCRIACAO) {
-            nascimentos = numRandomico.nextInt(TAMANHO_MAXIMO_NINHADA) + 1;
-        }
+        if(podeProcriar() && rand.nextDouble() <= PROBABILIDADE_PROCRIACAO) 
+            nascimentos = rand.nextInt(TAMANHO_MAXIMO_NINHADA) + 1;
         return nascimentos;
     }
     
@@ -183,7 +175,11 @@ public class Javali
      * */
     private boolean podeProcriar()
     {	
-    	return idade <= IDADE_PROCRIACAO; 
+        if(idade <= IDADE_PROCRIACAO)
+            return true;
+        
+        else 
+            return false;
     }
     	
     /**
