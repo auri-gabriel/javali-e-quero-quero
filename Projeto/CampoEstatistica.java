@@ -115,10 +115,9 @@ public class CampoEstatistica
         reiniciaEstatisticas();
         for(int linha = 0; linha < campo.getLargura(); linha++) {
             for(int coluna = 0; coluna < campo.getLargura(); coluna++) {
-                Object animal = campo.obterObjeto(linha, coluna);
-                if(animal != null) {
-                    incrementaContador(animal.getClass());
-                }
+                Object animal = campo.getObjetoEm(linha, coluna);
+                if(animal != null) 
+                    incrementaContador(animal.getClass());              
             }
         }
         contadoresValidos = true;
