@@ -17,8 +17,7 @@ import java.awt.Color;
  *Alterações:
  * - Atualização no javadoc;
  * - Renomeação de variáveis;
- * - Mudança nos condicionais do método povoa()
- * - Linha 68: Remoção do método redefine().
+ * - Mudança nos condicionais do método povoa();
  */
 
 public class Simulador
@@ -65,6 +64,7 @@ public class Simulador
         tela = new SimuladorTela(altura, largura);
         tela.setCor(QueroQuero.class, Color.orange);
         tela.setCor(Javali.class, Color.blue);
+        reiniciaSimulacao();
     }
     
     /**
