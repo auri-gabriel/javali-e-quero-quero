@@ -41,10 +41,10 @@ public class Javali
         setLocalizacao(localizacao);
         if(idadeRandomica) {
             idade = numRandomico.nextInt(IDADE_MAXIMA);
-            //nivelFome = rand.nextInt(VALOR_FOME_QUEROQUERO);
+            nivelFome = rand.nextInt(VALOR_FOME_QUEROQUERO);
         }
         else {
-            //nivelFome = VALOR_FOME_QUEROQUERO;
+            nivelFome = VALOR_FOME_QUEROQUERO;
         }
     }
     
