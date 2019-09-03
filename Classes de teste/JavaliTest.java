@@ -20,7 +20,7 @@ class JavaliTest {
 		j = new Javali(false, c, l);
 
 	}
-
+    // MÉTODO DE TESTE PARA CONFERIR SE A IDADE DO JAVALI ESTÁ AUMENTANTO COM O TEMPO
 	@Test
 	void testeIdade() {
 
@@ -41,7 +41,7 @@ class JavaliTest {
 		}
 
 	}
-
+    // TESTE PARA CONFERIR SE O NIVEL DE FOME DO JAVALI ESTÁ BAIXANDO
 	@Test
 	void testeFome() {
 		try {
@@ -62,15 +62,36 @@ class JavaliTest {
 		}
 
 	}
-	
+	// TESTE APRA VER O STATUS DE VIDA DO JAVALI
 	@Test
 	void testEstaVivo() {
 		Assert.assertTrue(j.estaVivo());
 	}
-
+    // TESTE PARA VERIFICAR A LOCALIZAÇÃO DO JAVALI
 	@Test
 	void testGetLocalizacao() {
 		Assert.assertEquals("23,26", j.getLocalizacao());
+	}
+	// MÉTODO DE TESTE PARA VERIFICAR SE O JAVALI ESTÁ NA IDADE DE PROCIRAÇÃO
+	@Test
+	void testeProcria() {
+		try {
+			Field idade = j.getClass().getDeclaredField("idade");
+			idade.setAccessible(true);
+			idade.setInt(j, 78);
+			System.out.println("===TEST:3===");
+			System.out.println("idade: "+idade.get(j));
+			Method metodo = j.getClass().getDeclaredMethod("podeProcriar");
+			metodo.setAccessible(true);
+			Assert.assertTrue((boolean) metodo.invoke(j));
+			System.out.println("Já está na idade de procriação");
+
+			
+			}
+		catch(Exception e) {
+		System.out.print(""+e);
+		}
+		
 	}
 
 }
