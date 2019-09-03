@@ -114,6 +114,30 @@ class JavaliTest {
 			System.out.println("" + e);
 		}
 	}
+    //  TESTE DA CLASSE PROCRIA
+    void testeProcria(){
+		try {
+		
+			setUp();
+			Field idade = j.getClass().getDeclaredField("idade");
+			idade.setAccessible(true);
+			idade.setInt(j, 16);
+			System.out.println("==TEST:5===");
+			Method MPP = j.getClass().getDeclaredMethod("podeProcriar");
+			MPP.setAccessible(true);
+			MPP.invoke(j);
+			Method MP = j.getClass().getDeclaredMethod("procria");
+			MP.setAccessible(true);
+			MP.invoke(j);
+			int returnNascimentos = (int) MP.invoke(j);
+			System.out.println("Nascimentos: "+returnNascimentos);
+			Assert.assertNotNull(returnNascimentos);
+		}
+		catch(Exception e) {
+			
+		}
+	}
+
 
 
 }
