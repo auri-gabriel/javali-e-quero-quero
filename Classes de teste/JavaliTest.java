@@ -74,7 +74,7 @@ class JavaliTest {
 	}
 	// MÉTODO DE TESTE PARA VERIFICAR SE O JAVALI ESTÁ NA IDADE DE PROCIRAÇÃO
 	@Test
-	void testeProcria() {
+	void testepodeProcria() {
 		try {
 			Field idade = j.getClass().getDeclaredField("idade");
 			idade.setAccessible(true);
