@@ -25,7 +25,7 @@ class JavaliTest {
 	void testeIdade() {
 
 		try {
-			setUp();
+		
 			Field idade = j.getClass().getDeclaredField("idade");
 			idade.setAccessible(true);
 			System.out.println("===TEST:1===");
@@ -45,7 +45,7 @@ class JavaliTest {
 	@Test
 	void testeFome() {
 		try {
-			setUp();
+	
 			Field fome = j.getClass().getDeclaredField("nivelFome");
 			fome.setAccessible(true);
 			System.out.println("===TEST:2===");
@@ -97,7 +97,7 @@ class JavaliTest {
 	@Test
 	void testeMorte() {
 		try {
-			setUp();
+	
 			Field vivo = j.getClass().getDeclaredField("vivo");
 			vivo.setAccessible(true);
 			System.out.println("===TEST:2===");
@@ -118,7 +118,7 @@ class JavaliTest {
     void testeProcria(){
 		try {
 		
-			setUp();
+		
 			Field idade = j.getClass().getDeclaredField("idade");
 			idade.setAccessible(true);
 			idade.setInt(j, 16);
