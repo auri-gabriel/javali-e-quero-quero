@@ -93,5 +93,27 @@ class JavaliTest {
 		}
 		
 	}
+	// TESTE DO MÉTODO SETMORTE 
+	@Test
+	void testeMorte() {
+		try {
+			setUp();
+			Field vivo = j.getClass().getDeclaredField("vivo");
+			vivo.setAccessible(true);
+			System.out.println("===TEST:2===");
+			System.out.println("Status:" + vivo.get(j));
+			System.out.println("Localização:" + j.getLocalizacao());
+			Method metodo = j.getClass().getDeclaredMethod("setMorte");
+			metodo.setAccessible(true);
+			metodo.invoke(j);
+			Assert.assertFalse((boolean) vivo.get(j));
+			System.out.println("Status:" + vivo.get(j));
+			Assert.assertEquals(null, j.getLocalizacao());
+			System.out.println("Localização:" + j.getLocalizacao());
+		} catch (Exception e) {
+			System.out.println("" + e);
+		}
+	}
+
 
 }
