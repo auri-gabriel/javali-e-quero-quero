@@ -181,7 +181,7 @@ public class Javali
      * */
     private boolean podeProcriar()
     {	
-        if(idade <= IDADE_PROCRIACAO)
+        if(idade >= IDADE_PROCRIACAO)
             return true;
         
         else 
