@@ -1,0 +1,73 @@
+package teste;
+
+import java.lang.reflect.Method;
+import static org.junit.Assert.fail;
+import java.lang.reflect.Field;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import sourceCode.Animal;
+import sourceCode.Campo;
+import sourceCode.Simulador;
+
+public class SimuladorTest {
+
+	static Simulador simulator;
+	static Campo field;
+	
+	@Before
+	public void setUp() throws Exception {
+		simulator = new Simulador(100, 100);
+		field = new Campo(50, 50);
+	}
+	
+	@Test
+	public void testExecutaLongaSimulacao() {
+		
+		try {
+			Field stage = simulator.getClass().getDeclaredField("etapa");
+			stage.setAccessible(true);
+			stage.setInt(stage, 500);
+			Method simulation = simulator.getClass().getDeclaredMethod("simulacao");
+			simulation.invoke(simulator);
+			Method longSimulation = simulator.getClass().getDeclaredMethod("executaLongaSimulacao");
+			Assert.assertNotSame(simulator.simulacao(500), simulator.executaLongaSimulacao());
+		}
+		catch(Exception e) {
+			System.out.println("Erro: " + e);
+		}
+	}
+
+	@Test
+	public void testSimulacao() {
+		
+		try {
+			Field stage = simulator.getClass().getDeclaredField("etapa");
+			stage.setAccessible(true);
+			stage.setInt(stage, 20);
+			Method oneSimulation = simulator.getClass().getDeclaredMethod("simulacaoUmaEtapa");
+			oneSimulation.invoke(simulator);
+			Method simulation = simulator.getClass().getDeclaredMethod("simulacao");
+		}
+		catch(Exception e) {
+			System.out.println("Erro: " + e);
+		}
+		
+	}
+
+	@Test
+	public void testSimulacaoUmaEtapa() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testReiniciaSimulacao() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testPovoa() {
+		fail("Not yet implemented");
+	}
+
+}
