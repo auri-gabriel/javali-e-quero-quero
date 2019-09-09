@@ -1,73 +1,103 @@
-package teste;
-
-import java.lang.reflect.Method;
-import static org.junit.Assert.fail;
 import java.lang.reflect.Field;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sourceCode.Animal;
-import sourceCode.Campo;
-import sourceCode.Simulador;
 
-public class SimuladorTest {
-
+class SimuladorTest {
 	static Simulador simulator;
-	static Campo field;
 	
-	@Before
-	public void setUp() throws Exception {
-		simulator = new Simulador(100, 100);
-		field = new Campo(50, 50);
-	}
+	@BeforeEach
+	void setUp() throws Exception {
+		simulator = new Simulador(50,50);
+	}	
+	
 	
 	@Test
-	public void testExecutaLongaSimulacao() {
-		
+	void testSimulacao() {
 		try {
+			System.out.println("Teste do método simulacao: ");
+			System.out.println("===========================");
 			Field stage = simulator.getClass().getDeclaredField("etapa");
 			stage.setAccessible(true);
-			stage.setInt(stage, 500);
-			Method simulation = simulator.getClass().getDeclaredMethod("simulacao");
-			simulation.invoke(simulator);
-			Method longSimulation = simulator.getClass().getDeclaredMethod("executaLongaSimulacao");
-			Assert.assertNotSame(simulator.simulacao(500), simulator.executaLongaSimulacao());
+			System.out.println("Número de etapas antes da chamada ao método: " + stage.get(simulator));
+			simulator.simulacao(50);
+			System.out.println("Número de etapas após a chamada ao método: " + stage.get(simulator));
+			Assert.assertEquals(50, stage.get(simulator));
+			System.out.println(" ");
 		}
-		catch(Exception e) {
-			System.out.println("Erro: " + e);
+		catch (Exception exception) {
+			System.out.println("Erro: " + exception);
 		}
 	}
 
 	@Test
-	public void testSimulacao() {
-		
+	void testExecutaLongaSimulacao() {
 		try {
+			System.out.println("Teste do método executaLongaSimulacao: ");
+			System.out.println("=======================================");
 			Field stage = simulator.getClass().getDeclaredField("etapa");
 			stage.setAccessible(true);
-			stage.setInt(stage, 20);
-			Method oneSimulation = simulator.getClass().getDeclaredMethod("simulacaoUmaEtapa");
-			oneSimulation.invoke(simulator);
-			Method simulation = simulator.getClass().getDeclaredMethod("simulacao");
+			System.out.println("Número de etapas antes da chamada ao método: " + stage.get(simulator));
+			simulator.executaLongaSimulacao();
+			System.out.println("Número de etapas após a chamada ao método: " + stage.get(simulator));
+			Assert.assertEquals(500, stage.get(simulator));
+			System.out.println(" ");
+		} 
+		catch(Exception exception) {
+			System.out.println("Erro: " + exception);
 		}
-		catch(Exception e) {
-			System.out.println("Erro: " + e);
+	}
+	
+	@Test 
+	void testSimulacaoUmaEtapa() {
+		try {
+			System.out.println("Teste do método simulacaoUmaEtapa: ");
+			System.out.println("===================================");
+			Field stage = simulator.getClass().getDeclaredField("etapa");
+			stage.setAccessible(true);
+			System.out.println("Número de etapas antes da chamada ao método: " + stage.get(simulator));
+			simulator.simulacaoUmaEtapa();
+			System.out.println("Número de etapas após a chamada ao método: " + stage.get(simulator));
+			Assert.assertEquals(1, stage.get(simulator));
+			System.out.println(" ");
 		}
-		
+		catch (Exception exception) {
+			System.out.println("Erro: " + exception);
+		}
 	}
-
+	
 	@Test
-	public void testSimulacaoUmaEtapa() {
-		fail("Not yet implemented");
+	void testReiniciaSimulacao() {
+		try {
+			System.out.println("Teste do método reiniciaSimulacao: ");
+			System.out.println("===================================");
+			Field stage = simulator.getClass().getDeclaredField("etapa");
+			stage.setAccessible(true);
+			simulator.simulacao(100);
+			System.out.println("Número de etapas antes da chamada ao método: " + stage.get(simulator));
+			simulator.reiniciaSimulacao();
+			System.out.println("Número de etapas após a chamada ao método: " + stage.get(simulator));
+			Assert.assertEquals(0, stage.get(simulator));
+			System.out.println(" ");
+		}
+		catch (Exception exception) {
+			System.out.println("Erro: " + exception);
+		}
 	}
-
+	
 	@Test
-	public void testReiniciaSimulacao() {
-		fail("Not yet implemented");
+	void testPovoa() {
+		try {
+			System.out.println("Teste do método povoa: ");
+			System.out.println("=======================");
+			Field javaliCollection = simulator.getClass().getDeclaredField("javalis");
+			javaliCollection.setAccessible(true);
+			Field queroQuerosCollection = simulator.getClass().getDeclaredField("queroQueros");
+			queroQuerosCollection.setAccessible(true);
+			System.out.println("Número de quero-queros antes da chamada ao método: ");
+		}
+		catch (Exception exception) {
+			System.out.println("Erro: " + exception);
+		}
 	}
-
-	@Test
-	public void testPovoa() {
-		fail("Not yet implemented");
-	}
-
 }
