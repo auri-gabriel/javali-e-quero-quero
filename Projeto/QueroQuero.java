@@ -53,7 +53,7 @@ public class QueroQuero
         if(vivo) {
             chocaOvos(novosQueroQueros);            
             Localizacao novaLocalizacao = campo.localizacaoAdjacenteLivre(localizacao);
-            if(novaLocalizacao != null) 
+            if(novaLocalizacao == null) 
                 setMorte();
             else 
                 setLocalizacao(novaLocalizacao);
