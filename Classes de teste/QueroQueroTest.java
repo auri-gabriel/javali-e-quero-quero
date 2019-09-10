@@ -134,13 +134,21 @@ class QueroQueroTest {
 			System.out.println("" + e);
 		}
 	}
+	
+	
 	@Test
 	void testVoa() {
-		System.out.println(""+q.getLocalizacao());
-		q.voa(novosQueroQueros);
-		System.out.println(""+q.getLocalizacao());
-		Assert.assertTrue(q.estaViva());
-		
-	
-	}
+	try {
+			Field idade = q.getClass().getDeclaredField("idade");
+			idade.setAccessible(true);
+			idade.set(q, 9);
+			System.out.println("" + q.getLocalizacao());
+			System.out.println("" + idade.get(q));
+			q.voa(novosQueroQueros);
+			System.out.println("" + idade.get(q));
+			System.out.println("" + q.getLocalizacao());
+			Assert.assertTrue(q.estaViva());
+		} catch (Exception e) {
+			System.out.println("" + e);
+		}
 }
