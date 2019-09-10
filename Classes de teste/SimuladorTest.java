@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class SimuladorTest {
-	static Simulador simulator;
+	private Simulador simulator;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -78,7 +78,6 @@ class SimuladorTest {
 			simulator.reiniciaSimulacao();
 			System.out.println("Número de etapas após a chamada ao método: " + stage.get(simulator));
 			Assert.assertEquals(0, stage.get(simulator));
-			System.out.println(" ");
 		}
 		catch (Exception exception) {
 			System.out.println("Erro: " + exception);
@@ -90,11 +89,15 @@ class SimuladorTest {
 		try {
 			System.out.println("Teste do método povoa: ");
 			System.out.println("=======================");
-			Field javaliCollection = simulator.getClass().getDeclaredField("javalis");
-			javaliCollection.setAccessible(true);
-			Field queroQuerosCollection = simulator.getClass().getDeclaredField("queroQueros");
-			queroQuerosCollection.setAccessible(true);
-			System.out.println("Número de quero-queros antes da chamada ao método: ");
+			Field queroQueros = simulator.getClass().getDeclaredField("queroQueros");
+			queroQueros.setAccessible(true);
+			Field javalis = simulator.getClass().getDeclaredField("javalis");
+			javalis.setAccessible(true);
+			simulator.povoa();
+			Assert.assertNotNull(queroQueros.get(simulator));
+			Assert.assertNotNull(javalis.get(simulator));
+			System.out.println("População criada com sucesso!");
+			System.out.println(" ");
 		}
 		catch (Exception exception) {
 			System.out.println("Erro: " + exception);
