@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
  */
 
 /**
- * @author User
+ * @author 1901560111
  *
  */
 class RandomizadorTest {
@@ -54,7 +54,7 @@ class RandomizadorTest {
 
 
 	/**
-	 * Teste pedindo dois numeros randomicos, para ver se eles são diferentes
+	 * Teste pedindo dois numeros randomicos, para ver se eles sï¿½o diferentes
 	 */
     @Test
     public void testGetRandom() {
@@ -62,6 +62,7 @@ class RandomizadorTest {
         System.out.println(expResult.toString());
         Double result = Randomizador.getRandom().nextDouble();
         System.out.println(result.toString());
+		Assert.assertNotEquals(expResult, result);
     
         
     }
