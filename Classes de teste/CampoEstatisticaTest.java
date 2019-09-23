@@ -1,12 +1,11 @@
 package teste;
 
-import static org.junit.Assert.*;
-
 import java.lang.reflect.Field;
-
+import java.lang.reflect.Method;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import classes.Campo;
 import classes.CampoEstatistica;
 import classes.Contador;
 
@@ -22,7 +21,13 @@ public class CampoEstatisticaTest {
 
 	@Test
 	public void testObterDetalhesPopulacao() {
-		fail("Not yet implemented");
+		try {
+			System.out.println("Teste do método obterDetalhesPopulacao:");
+			System.out.println(" ");
+			
+		} catch (Exception e) {
+			System.out.println("Erro: " + e);
+		}
 	}
 
 	@Test
@@ -78,7 +83,34 @@ public class CampoEstatisticaTest {
 
 	@Test
 	public void testEhViavel() {
-		fail("Not yet implemented");
+		try {
+			System.out.println("Teste do método ehViavel");
+			System.out.println(" ");
+			Field counters = fieldStat.getClass().getDeclaredField("contadores");
+			counters.setAccessible(true);
+			
+		} catch (Exception e) {
+			System.out.println("Erro: " + e);
+		}
+	}
+	
+	@Test
+	public void testGeraContadores() {
+		try {
+			System.out.println("Teste do método geraContadores:");
+			System.out.println(" ");
+			Field validCounters = fieldStat.getClass().getDeclaredField("contadoresValidos");
+			validCounters.setAccessible(true);
+			Method generateCounters = fieldStat.getClass().getDeclaredMethod("geraContadores", Campo.class);
+			generateCounters.setAccessible(true);
+			Campo field = new Campo (100, 100);
+			generateCounters.invoke(fieldStat, field);
+			Assert.assertEquals(true, validCounters.get(fieldStat));
+			
+			
+		} catch (Exception e) {
+			System.out.println("Erro: " + e);
+		}
 	}
 
 }
