@@ -1,4 +1,3 @@
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.Assert;
@@ -46,18 +45,18 @@ class CampoTest {
 	
 	@Test
 	void Lugarlocalizacao () {
-		System.out.println("Localizacão="+c.obterObjeto(l3));
+		System.out.println("Localizaco="+c.obterObjeto(l3));
 		c.lugar(a1, l3);
 		Assert.assertNotNull(c.obterObjeto(l3));
-		System.out.println("Localizacão="+c.obterObjeto(l3));		
+		System.out.println("Localizaco="+c.obterObjeto(l3));		
 	}
 	
 	@Test
 	void LugarLinhaColuna() {
-		System.out.println("Localização="+c.obterObjeto(16, 32));
+		System.out.println("Localizao="+c.obterObjeto(16, 32));
 		c.lugar(a2, 16, 32);
 		Assert.assertNotNull(c.obterObjeto(16, 32));
-		System.out.println("Localizacão="+c.obterObjeto(16, 32));
+		System.out.println("Localizaco="+c.obterObjeto(16, 32));
 	}
 	
 	@Test
@@ -86,10 +85,9 @@ class CampoTest {
 		c.lugar(a2, 15, 33);
 		c.lugar(a2, 17, 32);
 		c.lugar(a2, 17, 31);
-		System.out.println("Localizacão="+c.obterObjeto(17, 33));
-		
-		Assert.assertNotNull(c.localizacoesAdjacentesLivres(l4));
-		
+	    Assert.assertNull(c.obterObjeto(17, 33));
+		Localizacao a = c.localizacaoAdjacenteLivre(l4);
+		Assert.assertEquals(a, c.localizacaoAdjacenteLivre(l4));
 	}
 	
 	@Test
@@ -110,6 +108,28 @@ class CampoTest {
 	void localizacaoAdjacente() {
 		Assert.assertNotNull(c.localizacoesAdjacentes(l5));
 	}
+	
+	@Test
+	void localizacaoAdjacenteRandomica() {
+		System.out.println(""+c.localizacaoAdjacenteRandomica(l4));
+		Assert.assertNotNull(c.localizacaoAdjacenteRandomica(l5));
+	}
+	
+	@Test
+	void getAltura() {
+		Assert.assertEquals(50, c.getAltura());
+	}
+	
+	@Test
+	void getLargura() {
+		Assert.assertEquals(50, c.getLargura());
+	}
+	
+	@Test
+	void getLarguraErro() {
+		Assert.assertNotEquals(45, c.getLargura());
+	}
+	
 	
 	
 	
