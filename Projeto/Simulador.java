@@ -28,8 +28,7 @@ public class Simulador
     private static final double PROBABILIDADE_CRIACAO_JAVALI = 0.02;
     private static final double PROBABILIDADE_CRIACAO_QUEROQUERO = 0.28;    
 
-    private List<QueroQuero> queroQueros;
-    private List<Javali> javalis;
+    private List<Animal> a;
     private Campo campo;
     private int etapa;
     private SimuladorTela tela;
@@ -58,7 +57,7 @@ public class Simulador
             largura = LARGURA_PADRAO;
         }
         
-        queroQueros = new ArrayList<QueroQuero>();
+        a = new ArrayList<Animal>();
         javalis = new ArrayList<Javali>();
         campo = new Campo(altura, largura);
 
@@ -82,7 +81,7 @@ public class Simulador
      */
     public void simulacao(int numEtapas)
     {
-        for(int etapa = 0; etapa <= numEtapas && tela.ehViavel(campo); etapa++) {
+        for(int etapa = 0; etapa < numEtapas && tela.ehViavel(campo); etapa++) {
         	simulacaoUmaEtapa();
         }
     }
@@ -94,28 +93,17 @@ public class Simulador
      */
     public void simulacaoUmaEtapa()
     {
-    	List<Animal> novosQueroQueros = new ArrayList<Animal>();        
-        for(Iterator<QueroQuero> it = queroQueros.iterator(); it.hasNext(); ) {
-            QueroQuero queroQuero = it.next();
-            queroQuero.atividade(novosQueroQueros);
-            if(!queroQuero.estaVivo()) {
-                it.remove();
-            }
+    	etapa++;
+    List<Animal> novosAnimais = new ArrayList<Animal>();
+    for (Iterator<Animal> it = a.iterator(); it.hasNext();) {
+        Animal animal = it.next();
+        animal.atividade(novosAnimais);
+        if (!animal.estaVivo()) {
+            it.remove();
         }
-        
-        List<Animal> novosJavalis = new ArrayList<Animal>();        
-        for(Iterator<Javali> it = javalis.iterator(); it.hasNext(); ) {
-            Javali javali = it.next();
-            javali.atividade(novosJavalis);
-            if(!javali.estaVivo()) {
-                it.remove();
-            }
-        }
-        
-        queroQueros.add((QueroQuero) novosQueroQueros);
-        javalis.add((Javali) novosJavalis);
-
-        tela.mostraStatus(etapa, campo);
+    }
+    a.addAll(novosAnimais);
+    tela.mostraStatus(etapa, campo);
     }
     
     /**
@@ -145,12 +133,12 @@ public class Simulador
                 if(rand.nextDouble() <= PROBABILIDADE_CRIACAO_JAVALI) {
                     Localizacao novaLocalizacao = new Localizacao(linha, coluna);
                     Javali javali = new Javali(false, campo, novaLocalizacao);
-                    javalis.add(javali);
+                    a.add(javali);
                 }
                 else if(rand.nextDouble() <= PROBABILIDADE_CRIACAO_QUEROQUERO) {
                     Localizacao novaLocalizacao = new Localizacao(linha, coluna);
                     QueroQuero queroQuero = new QueroQuero(false, campo, novaLocalizacao);
-                    queroQueros.add(queroQuero);
+                    a.add(queroQuero);
                 }
             }
         }
