@@ -24,19 +24,20 @@ public class CampoEstatisticaTest {
 			Campo field = new Campo(100, 100);
 			Field counters = fieldStat.getClass().getDeclaredField("contadores");
 			counters.setAccessible(true);
-			HashMap <Class<?>, Contador> counterMap = (HashMap<Class<?>, Contador>) counters.get(fieldStat); 
 			StringBuffer info = new StringBuffer();
-			for(Class<?> key : counterMap.keySet()) {
-	            Contador count = counterMap.get(key);
-	            info.append(count.getNome());
-	            info.append(": ");
-	            info.append(count.getContagem());
-	            info.append(' ');
-	        }
+			Localizacao loc = new Localizacao(20,20);
+			QueroQuero qq = new QueroQuero(true, field, loc);
+			fieldStat.incrementaContador(QueroQuero.class);
+			HashMap <Class<?>, Contador> counterMap = (HashMap<Class<?>, Contador>) counters.get(fieldStat); 
+			Contador count = counterMap.get(QueroQuero.class);
+			info.append(count.getNome());
+            info.append(": ");
+            info.append(count.getContagem());
+            info.append(' ');
 			Assert.assertTrue(fieldStat.obterDetalhesPopulacao(field).contentEquals(info));
 			
 		} catch (Exception e) {
-			System.out.println("Erro: " + e);
+			e.printStackTrace();
 		}
 	}
 
@@ -53,7 +54,7 @@ public class CampoEstatisticaTest {
 			Assert.assertEquals(false, validCounters.get(fieldStat));
 			Assert.assertEquals(0, score.get(counter));
 		} catch (Exception e) {
-			System.out.println("Erro: " + e);
+			e.printStackTrace();
 		}
 		
 	}
@@ -68,9 +69,8 @@ public class CampoEstatisticaTest {
 			fieldStat.incrementaContador(Javali.class);
 			Contador count = counterMap.get(Javali.class);
 			Assert.assertEquals(1, count.getContagem());
-			System.out.println(count.getContagem());
 		} catch (Exception e) {
-			System.out.println("Erro: " + e);
+			e.printStackTrace();
 		}
 	}
 
@@ -82,28 +82,22 @@ public class CampoEstatisticaTest {
 			fieldStat.contadorFinalizado();
 			Assert.assertEquals(true, validCounters.get(fieldStat));
 		} catch (Exception e){
-			System.out.println("Erro" + e);
+			e.printStackTrace();
 		}
-		
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testEhViavel() {
 		try {
-			Campo field = new Campo(100, 100);
 			Field counters = fieldStat.getClass().getDeclaredField("contadores");
 			counters.setAccessible(true);
-			HashMap <Class<?>, Contador> counterMap = (HashMap<Class<?>, Contador>) counters.get(fieldStat); 
-			int entire = 0;
-			for(Class<?> key : counterMap.keySet()) {
-	            Contador info = counterMap.get(key);
-	            entire = info.getContagem();
-	        }
-			Assert.assertEquals(fieldStat.ehViavel(field), entire > 1);
+			Campo field = new Campo (100, 100);
+			Localizacao locQQ = new Localizacao(20,20);
+			QueroQuero qq = new QueroQuero(true, field, locQQ);
+			Assert.assertEquals(false, fieldStat.ehViavel(field));
 			
 		} catch (Exception e) {
-			System.out.println("Erro: " + e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -124,7 +118,7 @@ public class CampoEstatisticaTest {
 			Assert.assertEquals(countQQ.getContagem(), 1);
 			
 		} catch (Exception e) {
-			System.out.println("Erro: " + e);
+			e.printStackTrace();
 		}
 	}
 
