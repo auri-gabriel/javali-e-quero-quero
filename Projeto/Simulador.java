@@ -94,26 +94,26 @@ public class Simulador
      */
     public void simulacaoUmaEtapa()
     {
-    	List<QueroQuero> novosQueroQueros = new ArrayList<QueroQuero>();        
+    	List<Animal> novosQueroQueros = new ArrayList<Animal>();        
         for(Iterator<QueroQuero> it = queroQueros.iterator(); it.hasNext(); ) {
             QueroQuero queroQuero = it.next();
-            queroQuero.voa(novosQueroQueros);
-            if(!queroQuero.estaViva()) {
+            queroQuero.atividade(novosQueroQueros);
+            if(!queroQuero.estaVivo()) {
                 it.remove();
             }
         }
         
-        List<Javali> novosJavalis = new ArrayList<Javali>();        
+        List<Animal> novosJavalis = new ArrayList<Animal>();        
         for(Iterator<Javali> it = javalis.iterator(); it.hasNext(); ) {
             Javali javali = it.next();
-            javali.caca(novosJavalis);
+            javali.atividade(novosJavalis);
             if(!javali.estaVivo()) {
                 it.remove();
             }
         }
         
-        queroQueros.addAll(novosQueroQueros);
-        javalis.addAll(novosJavalis);
+        queroQueros.add((QueroQuero) novosQueroQueros);
+        javalis.add((Javali) novosJavalis);
 
         tela.mostraStatus(etapa, campo);
     }
@@ -158,6 +158,6 @@ public class Simulador
     
     public static void main(String [] args) {
     	Simulador s = new Simulador(100,100);
-    	s.simulacao(500);
+    	s.simulacao(100);
     }
 }
