@@ -5,10 +5,8 @@ import java.lang.reflect.Method;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import classes.Campo;
-import classes.CampoEstatistica;
-import classes.Contador;
 import java.util.HashMap;
+import classes.*;
 
 public class CampoEstatisticaTest {
 	
@@ -17,15 +15,12 @@ public class CampoEstatisticaTest {
 	@Before
 	public void setUp() throws Exception {
 		fieldStat = new CampoEstatistica();
-		System.out.println("===================");
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testObterDetalhesPopulacao() {
 		try {
-			System.out.println("Teste do método obterDetalhesPopulacao:");
-			System.out.println(" ");
 			Campo field = new Campo(100, 100);
 			Field counters = fieldStat.getClass().getDeclaredField("contadores");
 			counters.setAccessible(true);
@@ -48,8 +43,6 @@ public class CampoEstatisticaTest {
 	@Test
 	public void testReiniciaEstatisticas() {
 		try {
-			System.out.println("Teste do método reiniciaEstatisticas:");
-			System.out.println(" ");
 			Contador counter = new Contador("counter");
 			Field score = counter.getClass().getDeclaredField("contagem");
 			score.setAccessible(true);
@@ -65,17 +58,17 @@ public class CampoEstatisticaTest {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testIncrementaContador() {
 		try {
-			System.out.println("Teste do método incrementaContador:");
-			System.out.println(" ");
-			Contador counter = new Contador("counter");
-			Field score = counter.getClass().getDeclaredField("contagem");
-			score.setAccessible(true);
-			score.setInt(counter, 0);
-			counter.increment();
-			Assert.assertEquals(1, score.get(counter));
+			Field counters = fieldStat.getClass().getDeclaredField("contadores");
+			counters.setAccessible(true);
+			HashMap <Class<?>, Contador> counterMap = (HashMap<Class<?>, Contador>) counters.get(fieldStat); 
+			fieldStat.incrementaContador(Javali.class);
+			Contador count = counterMap.get(Javali.class);
+			Assert.assertEquals(1, count.getContagem());
+			System.out.println(count.getContagem());
 		} catch (Exception e) {
 			System.out.println("Erro: " + e);
 		}
@@ -84,8 +77,6 @@ public class CampoEstatisticaTest {
 	@Test
 	public void testContadorFinalizado() {
 		try {
-			System.out.println("Teste do método contadorFinalizado:");
-			System.out.println(" ");
 			Field validCounters = fieldStat.getClass().getDeclaredField("contadoresValidos");
 			validCounters.setAccessible(true);
 			fieldStat.contadorFinalizado();
@@ -100,8 +91,6 @@ public class CampoEstatisticaTest {
 	@Test
 	public void testEhViavel() {
 		try {
-			System.out.println("Teste do método ehViavel");
-			System.out.println(" ");
 			Campo field = new Campo(100, 100);
 			Field counters = fieldStat.getClass().getDeclaredField("contadores");
 			counters.setAccessible(true);
@@ -118,19 +107,21 @@ public class CampoEstatisticaTest {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGeraContadores() {
 		try {
-			System.out.println("Teste do método geraContadores:");
-			System.out.println(" ");
-			Field validCounters = fieldStat.getClass().getDeclaredField("contadoresValidos");
-			validCounters.setAccessible(true);
 			Method generateCounters = fieldStat.getClass().getDeclaredMethod("geraContadores", Campo.class);
 			generateCounters.setAccessible(true);
+			Field counters = fieldStat.getClass().getDeclaredField("contadores");
+			counters.setAccessible(true);
 			Campo field = new Campo (100, 100);
+			Localizacao loc = new Localizacao(20,20);
+			QueroQuero qq = new QueroQuero(true, field, loc);
 			generateCounters.invoke(fieldStat, field);
-			Assert.assertEquals(true, validCounters.get(fieldStat));
-			
+			HashMap <Class<?>, Contador> counterMap = (HashMap<Class<?>, Contador>) counters.get(fieldStat); 
+			Contador countQQ = counterMap.get(QueroQuero.class);
+			Assert.assertEquals(countQQ.getContagem(), 1);
 			
 		} catch (Exception e) {
 			System.out.println("Erro: " + e);
