@@ -159,5 +159,22 @@ class JavaliTest {
 			System.out.println("" + e);
 		}
 	}
+	
+	@Test
+	void testeMorteIdade() {
+		try {
+			setUp();
+			Field idade = a.getClass().getDeclaredField("idade");
+			idade.setAccessible(true);
+			idade.set(a, 150);
+			Method metodo = a.getClass().getDeclaredMethod("incrementaIdade");
+			metodo.setAccessible(true);
+			metodo.invoke(a);
+			Assert.assertFalse(a.estaVivo());
+			Assert.assertNull(c.obterObjeto(l));
+		
+		} catch (Exception e) {						
+		}
+	}
 
 }
