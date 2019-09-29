@@ -151,4 +151,25 @@ class QueroQueroTest {
 		} catch (Exception e) {
 			System.out.println("" + e);
 		}
+	
+	@Test
+	void testeLimitePodeprocriar() {
+		try {
+		Field idade = q.getClass().getDeclaredField("idade");
+		idade.setAccessible(true);
+		idade.setInt(q, 4);
+		Method metodo = q.getClass().getDeclaredMethod("podeProcriar");
+		metodo.setAccessible(true);
+		metodo.invoke(q);
+		Assert.assertFalse((boolean) metodo.invoke(q));
+		Method incrementaIdade = q.getClass().getDeclaredMethod("incrementaIdade");
+		incrementaIdade.setAccessible(true);
+		incrementaIdade.invoke(q);
+		Assert.assertTrue((boolean) metodo.invoke(q));
+		
+		}catch(Exception e) {
+			
+		}
+	}
+		
 }
