@@ -176,5 +176,59 @@ class JavaliTest {
 		} catch (Exception e) {						
 		}
 	}
+	
+	@Test
+	void naoPodeProcriarIdade() {
+		try {
+			Field idade = a.getClass().getDeclaredField("idade");
+			idade.setAccessible(true);
+			for (int i = 0; i < 10; i++) {
+				idade.set(a, i);
+			}
+			Method MPP = a.getClass().getDeclaredMethod("podeProcriar");
+			MPP.setAccessible(true);
+			Assert.assertFalse((boolean) MPP.invoke(a));
+		} catch (Exception e) {
+
+		}
+	}
+
+	@Test
+	void podeProcriar() {
+		try {
+			Field idade = a.getClass().getDeclaredField("idade");
+			idade.setAccessible(true);
+			for (int i = 10; i < 150; i++) {
+				idade.set(a, i);
+			}
+			Method MPP = a.getClass().getDeclaredMethod("podeProcriar");
+			MPP.setAccessible(true);
+			Assert.assertTrue((boolean) MPP.invoke(a));
+		} catch (Exception e) {
+
+		}
+	}
+
+	@Test
+	void naoPodeProcriarMorte() {
+		try {
+			setUp();
+			Field idade = a.getClass().getDeclaredField("idade");
+			idade.setAccessible(true);
+			idade.set(a, 150);
+			Method MPP = a.getClass().getDeclaredMethod("podeProcriar");
+			MPP.setAccessible(true);
+			Assert.assertTrue((boolean) MPP.invoke(a));
+			Assert.assertTrue(a.estaVivo());
+			Method metodo = a.getClass().getDeclaredMethod("incrementaIdade");
+			metodo.setAccessible(true);
+			metodo.invoke(a);
+			Assert.assertFalse(a.estaVivo());
+			Assert.assertFalse((boolean) MPP.invoke(a));
+			
+		} catch (Exception e) {
+
+		}
+	}
 
 }
