@@ -1,4 +1,3 @@
-package teste;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -6,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.HashMap;
-import classes.*;
+
 
 public class CampoEstatisticaTest {
 	
@@ -122,4 +121,42 @@ public class CampoEstatisticaTest {
 		}
 	}
 
+	//testes limite minimo
+	
+	@Test
+	public void testEhViavelMinimo() {
+		try {
+			Field counters = fieldStat.getClass().getDeclaredField("contadores");
+			counters.setAccessible(true);
+			Campo field = new Campo (100, 100);
+			Localizacao locQQ = new Localizacao(-1,-1);
+			QueroQuero qq = new QueroQuero(true, field, locQQ);
+			// deve retornar false pois a localização é invalida
+			Assert.assertEquals(false, fieldStat.ehViavel(field));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+	
+	//testes limite maximo
+
+	@Test
+	public void testEhViavelMaximo() {
+		try {
+			Field counters = fieldStat.getClass().getDeclaredField("contadores");
+			counters.setAccessible(true);
+			Campo field = new Campo (100, 100);
+			Localizacao locQQ = new Localizacao(101,101);
+			QueroQuero qq = new QueroQuero(true, field, locQQ);
+			// deve retornar false pois a localização é invalida
+			Assert.assertEquals(false, fieldStat.ehViavel(field));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
