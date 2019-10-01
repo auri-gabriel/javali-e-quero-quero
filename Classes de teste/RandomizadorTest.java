@@ -1,92 +1,76 @@
+package teste;
 
-import java.util.Random;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.Assert;
-
+import classes.Randomizador;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import java.util.ArrayList;
 
+public class RandomizadorTest {
 
-/**
- * 
- */
-
-/**
- * @author 1901560111
- *
- */
-class RandomizadorTest {
-
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
+	private Randomizador random;
+	@Before
+	public void setUp() throws Exception {
+		random = new Randomizador();
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeEach
-	void setUp() throws Exception {
-		
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterEach
-	void tearDown() throws Exception {
-	}
-
-
-	/**
-	 * Teste pedindo dois numeros randomicos, para ver se eles s�o diferentes
-	 */
-    @Test
-    public void testGetRandom() {
-        Double expResult = Randomizador.getRandom().nextDouble();
-        System.out.println(expResult.toString());
-        Double result = Randomizador.getRandom().nextDouble();
-        System.out.println(result.toString());
-		Assert.assertNotEquals(expResult, result);
-    
-        
-    }
-
-    
-    
-    
-    /**
-     * Teste do metodo reset, da classe Randomizador.
-     */
-@Test
-    public void testReset() {
+	@Test
+	public void testGetRandomDefault() {
 		try {
-			Field r = Randomizador.class.getDeclaredField("numCompartilhado");
-			r.setAccessible(true);
-			r.setBoolean(null, false);
-			boolean comp = r.getBoolean(r);
-			Randomizador.reset();
-			Assert.assertTrue(comp);
-		
-		} catch (Exception e) {
+			ArrayList<Double> expected = new ArrayList<>();
+			ArrayList<Double> actual = new ArrayList<>();
 			
+			for (int i = 0; i < 5; i++) {
+				expected.add(Randomizador.getRandom().nextDouble());
+			}
+			
+			for(int i = 0; i < 5; i++) {
+				actual.add(Randomizador.getRandom().nextDouble());
+			}
+			
+			System.out.println("=================");
+			
+			Assert.assertFalse(expected.containsAll(actual));
+			
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void testGetRandomWithReset() {
+		try {
+			ArrayList<Double> expected = new ArrayList<>();
+			ArrayList<Double> actual = new ArrayList<>();
+			
+			for(int j = 0; j < 5; j++) {
+				actual.add(Randomizador.getRandom().nextDouble());
+			}
+						
+			Randomizador.reset();
+						
+			for(int i = 0; i < 6; i++) {
+				expected.add(Randomizador.getRandom().nextDouble());
+			}
 
-    }
-
+			
+			Assert.assertTrue(expected.containsAll(actual));
+			
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testReset() {
+		try {
+			Double expected = Randomizador.getRandom().nextDouble();
+			Randomizador.reset();
+	        Double result = Randomizador.getRandom().nextDouble();
+	        Assert.assertEquals(expected, result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
