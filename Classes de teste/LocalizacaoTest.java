@@ -1,5 +1,3 @@
-package teste;
-
 import java.lang.reflect.Field;
 import org.junit.Assert;
 import org.junit.Before;
@@ -65,6 +63,16 @@ public class LocalizacaoTest {
 		try {
 			Contador counter = new Contador("test");
 			Assert.assertFalse(location.equals(counter));
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testEqualsNegativeLocation() {
+		try {
+			Localizacao compare = new Localizacao(-20, -20);
+			Assert.assertFalse(location.equals(compare));
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
