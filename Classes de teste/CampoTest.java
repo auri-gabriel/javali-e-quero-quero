@@ -157,13 +157,13 @@ class CampoTest {
 	void obterLocalizacaoMinima() {
 		System.out.println(""+c.getObjetoEm(l7));
 		System.out.println(""+c.getObjetoEm(l8));
-		Assert.assertNull(c.getObjetoEm(l7));
-		Assert.assertNull(c.getObjetoEm(l8));
+		Assert.assertNotNull(c.getObjetoEm(l7));
+		Assert.assertNotNull(c.getObjetoEm(l8));
 	}
 	
 	@Test
 	void getObjetoEmLinhaColunaMinima() {
-		Assert.assertNull(c.getObjetoEm(0, 0));
+		Assert.assertNotNull(c.getObjetoEm(0, 0));
 		System.out.println(""+c.getObjetoEm(0, 0));
 	}	
 	
@@ -172,7 +172,7 @@ class CampoTest {
 	void LugarlocalizacaoMinima() {
 		System.out.println("Localizaco="+c.getObjetoEm(l7));
 		c.lugar(a3, l7);
-		Assert.assertNull(c.getObjetoEm(l7));
+		Assert.assertNotNull(c.getObjetoEm(l7));
 		System.out.println("Localizaco="+c.getObjetoEm(l7));		
 	}
 	
@@ -180,7 +180,7 @@ class CampoTest {
 	void LugarLinhaColunaMinima() {
 		System.out.println("Localizao="+c.getObjetoEm(0, 0));
 		c.lugar(a6, 0, 0);
-		Assert.assertNull(c.getObjetoEm(0, 0));
+		Assert.assertNotNull(c.getObjetoEm(0, 0));
 		System.out.println("Localizaco="+c.getObjetoEm(0, 0));
 	}
 	
@@ -189,13 +189,13 @@ class CampoTest {
 	void obterLocalizacaoMaxima() {	
 		System.out.println(""+c.getObjetoEm(l9));
 		System.out.println(""+c.getObjetoEm(l10));
-		Assert.assertNull(c.getObjetoEm(l9));
-		Assert.assertNull(c.getObjetoEm(l10));
+		Assert.assertNotNull(c.getObjetoEm(l9));
+		Assert.assertNotNull(c.getObjetoEm(l10));
 	}
 
 	@Test
 	void getObjetoEmLinhaColunaMaxima() {
-		Assert.assertNull(c.getObjetoEm(49, 49));
+		Assert.assertNotNull(c.getObjetoEm(49, 49));
 		System.out.println(""+c.getObjetoEm(49, 49));
 	}	
 	
@@ -204,7 +204,7 @@ class CampoTest {
 	void LugarlocalizacaoMaxima() {
 		System.out.println("Localizaco="+c.getObjetoEm(l9));
 		c.lugar(a4, l9);
-		Assert.assertNull(c.getObjetoEm(l9));
+		Assert.assertNotNull(c.getObjetoEm(l9));
 		System.out.println("Localizaco="+c.getObjetoEm(l9));		
 	}
 	
@@ -212,7 +212,7 @@ class CampoTest {
 	void LugarLinhaColunaMaxima() {
 		System.out.println("Localizao="+c.getObjetoEm(49, 49));
 		c.lugar(a6, 49, 49);
-		Assert.assertNull(c.getObjetoEm(49, 49));
+		Assert.assertNotNull(c.getObjetoEm(49, 49));
 		System.out.println("Localizaco="+c.getObjetoEm(49, 49));
 	}
 	
