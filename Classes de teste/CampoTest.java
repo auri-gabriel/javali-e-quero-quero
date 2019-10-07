@@ -161,10 +161,23 @@ class CampoTest {
 		Assert.assertNotNull(c.getObjetoEm(l8));
 	}
 	
+/*	@Test
+	void getObjetoEmLinhaColunaMinimaAnterior() {
+		Assert.assertNull(c.getObjetoEm(-1, -1));
+		System.out.println(""+c.getObjetoEm(-1, -1));
+	}	
+*/	
+	
 	@Test
 	void getObjetoEmLinhaColunaMinima() {
 		Assert.assertNotNull(c.getObjetoEm(0, 0));
 		System.out.println(""+c.getObjetoEm(0, 0));
+	}	
+	
+	@Test
+	void getObjetoEmLinhaColunaMinimaSeguinte() {
+		Assert.assertNotNull(c.getObjetoEm(1, 1));
+		System.out.println(""+c.getObjetoEm(1, 1));
 	}	
 	
 	
@@ -175,6 +188,15 @@ class CampoTest {
 		Assert.assertNotNull(c.getObjetoEm(l7));
 		System.out.println("Localizaco="+c.getObjetoEm(l7));		
 	}
+/*
+	@Test
+	void LugarLinhaColunaMinimaAnterior() {
+		System.out.println("Localizao="+c.getObjetoEm(-1, -1));
+		c.lugar(a6, -1, -1);
+		Assert.assertNull(c.getObjetoEm(-1, -1));
+		System.out.println("Localizaco="+c.getObjetoEm(-1, -1));
+	}
+*/		
 	
 	@Test
 	void LugarLinhaColunaMinima() {
@@ -183,6 +205,15 @@ class CampoTest {
 		Assert.assertNotNull(c.getObjetoEm(0, 0));
 		System.out.println("Localizaco="+c.getObjetoEm(0, 0));
 	}
+	
+	@Test
+	void LugarLinhaColunaMinimaSeguinte() {
+		System.out.println("Localizao="+c.getObjetoEm(1, 1));
+		c.lugar(a6, 1, 1);
+		Assert.assertNotNull(c.getObjetoEm(1, 1));
+		System.out.println("Localizaco="+c.getObjetoEm(1, 1));
+	}
+		
 	
 	//Testes Limite Maximo
 	@Test
@@ -194,12 +225,23 @@ class CampoTest {
 	}
 
 	@Test
+	void getObjetoEmLinhaColunaMaximaAnterior() {
+		Assert.assertNotNull(c.getObjetoEm(48, 48));
+		System.out.println(""+c.getObjetoEm(48, 48));
+	}	
+	
+	@Test
 	void getObjetoEmLinhaColunaMaxima() {
 		Assert.assertNotNull(c.getObjetoEm(49, 49));
 		System.out.println(""+c.getObjetoEm(49, 49));
 	}	
-	
-	
+
+/*	@Test
+	void getObjetoEmLinhaColunaMaximaSeguinte() {
+		Assert.assertNull(c.getObjetoEm(50, 50));
+		System.out.println(""+c.getObjetoEm(50, 50));
+	}	
+*/	
 	@Test
 	void LugarlocalizacaoMaxima() {
 		System.out.println("Localizaco="+c.getObjetoEm(l9));
@@ -207,6 +249,15 @@ class CampoTest {
 		Assert.assertNotNull(c.getObjetoEm(l9));
 		System.out.println("Localizaco="+c.getObjetoEm(l9));		
 	}
+
+	@Test
+	void LugarLinhaColunaMaximaAnterior() {
+		System.out.println("Localizao="+c.getObjetoEm(48, 48));
+		c.lugar(a6, 48, 48);
+		Assert.assertNotNull(c.getObjetoEm(48, 48));
+		System.out.println("Localizaco="+c.getObjetoEm(48, 48));
+	}
+		
 	
 	@Test
 	void LugarLinhaColunaMaxima() {
@@ -215,5 +266,13 @@ class CampoTest {
 		Assert.assertNotNull(c.getObjetoEm(49, 49));
 		System.out.println("Localizaco="+c.getObjetoEm(49, 49));
 	}
-	
+/*
+	@Test
+	void LugarLinhaColunaMaximaSeguinte() {
+		System.out.println("Localizao="+c.getObjetoEm(50, 50));
+		c.lugar(a6, 50, 50);
+		Assert.assertNull(c.getObjetoEm(50, 50));
+		System.out.println("Localizaco="+c.getObjetoEm(50, 50));
+	}
+*/		
 }
