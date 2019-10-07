@@ -21,23 +21,26 @@ class CampoTest {
 		l4 = new Localizacao(16,32);
 		l5 = new Localizacao(17,33);
 		
-		// localização minima
-		l6 = new Localizacao(-1,-1);
-		l7 = new Localizacao(-2,-3);
-		l10 = new Localizacao(-77,-77);
-		// localização maxima
-		l8 = new Localizacao(51,51);
-		l9 = new Localizacao(52,53);
-		l11 = new Localizacao(66,66);
+		// localizao minima
+		
+		//l6 = new Localizacao(-1,-1); // valor minimo -1
+		l7 = new Localizacao(0,0); // valor minimo
+		l8 = new Localizacao(1,1); // valor minimo +1
+		
+		// localizao maxima
+		
+		l9 = new Localizacao(49,49); // valor maximo -1
+		l10 = new Localizacao(50,50); // valor maximo
+		//l11 = new Localizacao(51,51); // valor maximo +1
 		
 		a1 = new Javali(false,c, l1);
 		a2= new QueroQuero(false,c, l2);
 		
-		// animal na localização minima
-		a3 = new Javali(false,c, l6);
-		a4= new QueroQuero(false,c, l7);
-		// animal na localização maxima
-		a6= new QueroQuero(false,c, l9);
+		// animal na localizao minima
+		a3 = new Javali(false,c, l7);
+		a4= new QueroQuero(false,c, l8);
+		// animal na localizao maxima
+		a6= new QueroQuero(false,c, l10);
 	}
 
 	@Test
@@ -151,67 +154,65 @@ class CampoTest {
 	
 	@Test
 	void obterLocalizacaoMinima() {
-		System.out.println(""+c.getObjetoEm(l6));
 		System.out.println(""+c.getObjetoEm(l7));
-		//devem ser NULOS pois a localização é MENOR que o campo
-		Assert.assertNull(c.getObjetoEm(l6));
+		System.out.println(""+c.getObjetoEm(l8));
 		Assert.assertNull(c.getObjetoEm(l7));
+		Assert.assertNull(c.getObjetoEm(l8));
 	}
 	
 	@Test
 	void getObjetoEmLinhaColunaMinima() {
-		Assert.assertNull(c.getObjetoEm(-6, -6));
-		System.out.println(""+c.getObjetoEm(-6, -6));
+		Assert.assertNull(c.getObjetoEm(0, 0));
+		System.out.println(""+c.getObjetoEm(0, 0));
 	}	
 	
 	
 	@Test
 	void LugarlocalizacaoMinima() {
-		System.out.println("Localizaco="+c.getObjetoEm(l10));
-		c.lugar(a3, l10);
-		Assert.assertNull(c.getObjetoEm(l10));
-		System.out.println("Localizaco="+c.getObjetoEm(l10));		
+		System.out.println("Localizaco="+c.getObjetoEm(l7));
+		c.lugar(a3, l7);
+		Assert.assertNull(c.getObjetoEm(l7));
+		System.out.println("Localizaco="+c.getObjetoEm(l7));		
 	}
 	
 	@Test
 	void LugarLinhaColunaMinima() {
-		System.out.println("Localizao="+c.getObjetoEm(-22, -32));
-		c.lugar(a6, -22, -32);
-		Assert.assertNull(c.getObjetoEm(-22, -32));
-		System.out.println("Localizaco="+c.getObjetoEm(-22, -32));
+		System.out.println("Localizao="+c.getObjetoEm(0, 0));
+		c.lugar(a6, 0, 0);
+		Assert.assertNull(c.getObjetoEm(0, 0));
+		System.out.println("Localizaco="+c.getObjetoEm(0, 0));
 	}
 	
 	//Testes Limite Maximo
 	@Test
 	void obterLocalizacaoMaxima() {	
-		System.out.println(""+c.getObjetoEm(l8));
 		System.out.println(""+c.getObjetoEm(l9));
-		//devem ser NULOS pois a localização é MAIOR que o campo
-		Assert.assertNull(c.getObjetoEm(l8));
+		System.out.println(""+c.getObjetoEm(l10));
 		Assert.assertNull(c.getObjetoEm(l9));
+		Assert.assertNull(c.getObjetoEm(l10));
 	}
 
 	@Test
 	void getObjetoEmLinhaColunaMaxima() {
-		Assert.assertNull(c.getObjetoEm(129, 129));
-		System.out.println(""+c.getObjetoEm(129, 129));
+		Assert.assertNull(c.getObjetoEm(50, 50));
+		System.out.println(""+c.getObjetoEm(50, 50));
 	}	
 	
 	
 	@Test
 	void LugarlocalizacaoMaxima() {
-		System.out.println("Localizaco="+c.getObjetoEm(l11));
-		c.lugar(a4, l11);
-		Assert.assertNull(c.getObjetoEm(l11));
-		System.out.println("Localizaco="+c.getObjetoEm(l11));		
+		System.out.println("Localizaco="+c.getObjetoEm(l9));
+		c.lugar(a4, l9);
+		Assert.assertNull(c.getObjetoEm(l9));
+		System.out.println("Localizaco="+c.getObjetoEm(l9));		
 	}
 	
 	@Test
 	void LugarLinhaColunaMaxima() {
-		System.out.println("Localizao="+c.getObjetoEm(170, 256));
-		c.lugar(a6, 170, 256);
-		Assert.assertNull(c.getObjetoEm(170, 256));
-		System.out.println("Localizaco="+c.getObjetoEm(170, 256));
+		System.out.println("Localizao="+c.getObjetoEm(50, 50));
+		c.lugar(a6, 50, 50);
+		Assert.assertNull(c.getObjetoEm(50, 50));
+		System.out.println("Localizaco="+c.getObjetoEm(50, 50));
 	}
 	
 }
