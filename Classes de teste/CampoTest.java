@@ -9,7 +9,7 @@ class CampoTest {
 	private static Campo c;
 	private static Localizacao l1, l2, l3,l4,l5,l6,l7,l8,l9,l10,l11;
 	//private static Animal a1, a2, a3, a4, a5, a6;
-	private static Javali a1, a3;
+	private static Javali a1, a3, a5;
 	private static QueroQuero a2, a4, a6;
 	@BeforeEach
 	void setUp() throws Exception {
@@ -29,9 +29,9 @@ class CampoTest {
 		
 		// localizao maxima
 		
-		l9 = new Localizacao(49,49); // valor maximo -1
-		l10 = new Localizacao(50,50); // valor maximo
-		//l11 = new Localizacao(51,51); // valor maximo +1
+		l9 = new Localizacao(48,48); // valor maximo -1
+		l10 = new Localizacao(49,49); // valor maximo
+		//l11 = new Localizacao(50,50); // valor maximo +1
 		
 		a1 = new Javali(false,c, l1);
 		a2= new QueroQuero(false,c, l2);
@@ -40,6 +40,7 @@ class CampoTest {
 		a3 = new Javali(false,c, l7);
 		a4= new QueroQuero(false,c, l8);
 		// animal na localizao maxima
+		a5 = new Javali(false,c, l9);
 		a6= new QueroQuero(false,c, l10);
 	}
 
@@ -194,8 +195,8 @@ class CampoTest {
 
 	@Test
 	void getObjetoEmLinhaColunaMaxima() {
-		Assert.assertNull(c.getObjetoEm(50, 50));
-		System.out.println(""+c.getObjetoEm(50, 50));
+		Assert.assertNull(c.getObjetoEm(49, 49));
+		System.out.println(""+c.getObjetoEm(49, 49));
 	}	
 	
 	
@@ -209,10 +210,10 @@ class CampoTest {
 	
 	@Test
 	void LugarLinhaColunaMaxima() {
-		System.out.println("Localizao="+c.getObjetoEm(50, 50));
-		c.lugar(a6, 50, 50);
-		Assert.assertNull(c.getObjetoEm(50, 50));
-		System.out.println("Localizaco="+c.getObjetoEm(50, 50));
+		System.out.println("Localizao="+c.getObjetoEm(49, 49));
+		c.lugar(a6, 49, 49);
+		Assert.assertNull(c.getObjetoEm(49, 49));
+		System.out.println("Localizaco="+c.getObjetoEm(49, 49));
 	}
 	
 }
