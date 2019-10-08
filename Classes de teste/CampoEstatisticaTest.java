@@ -1,4 +1,3 @@
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import org.junit.Assert;
@@ -9,37 +8,86 @@ import java.util.HashMap;
 
 public class CampoEstatisticaTest {
 	
+	
+	
+	private Javali a1;
+	private QueroQuero a2;
 	private CampoEstatistica fieldStat;
+	private Campo field;
+	private Localizacao l1,l2;
 	
 	@Before
 	public void setUp() throws Exception {
 		fieldStat = new CampoEstatistica();
+		field = new Campo(100,100);
+		
+		l1 = new Localizacao(35,48);
+		l2 = new Localizacao(15,32);
+		
+	
+		a2 = new QueroQuero(false, field, l2);
+		a1 = new Javali(false, field, l1);
 	}
 
-	@SuppressWarnings("unchecked")
+	/*
+	Mudan√ßa no testeObterDetalhesPopulacao para deixar mais clara a leitura dos dados
+	Agora comparando a sa√≠da do progama com o n√∫mero de objetos alocados no campo
+	*/
 	@Test
 	public void testObterDetalhesPopulacao() {
 		try {
-			Campo field = new Campo(100, 100);
-			Field counters = fieldStat.getClass().getDeclaredField("contadores");
-			counters.setAccessible(true);
-			StringBuffer info = new StringBuffer();
-			Localizacao loc = new Localizacao(20,20);
-			QueroQuero qq = new QueroQuero(true, field, loc);
-			fieldStat.incrementaContador(QueroQuero.class);
-			HashMap <Class<?>, Contador> counterMap = (HashMap<Class<?>, Contador>) counters.get(fieldStat); 
-			Contador count = counterMap.get(QueroQuero.class);
-			info.append(count.getNome());
-            info.append(": ");
-            info.append(count.getContagem());
-            info.append(' ');
-			Assert.assertTrue(fieldStat.obterDetalhesPopulacao(field).contentEquals(info));
-			
+		
+		Method geraContadores = fieldStat.getClass().getDeclaredMethod("geraContadores", Campo.class);
+		geraContadores.setAccessible(true);
+		geraContadores.invoke(fieldStat, field);
+		System.out.println(fieldStat.obterDetalhePopulacao(field));
+		Assert.assertEquals("Projeto.Javali: 1 Projeto.QueroQuero: 1 ",fieldStat.obterDetalhePopulacao(field));
+	
+		
 		} catch (Exception e) {
-			e.printStackTrace();
+		
 		}
 	}
-
+	
+	/*
+	Teste limite no caso de um Quero Quero seja retirado do campo
+	*/
+	@Test
+	public void testObterDetalhesPopulacaoMorteQueroQuero() {
+		try {
+		
+		a2.setMorte();
+		Method geraContadores = fieldStat.getClass().getDeclaredMethod("geraContadores", Campo.class);
+		geraContadores.setAccessible(true);
+		geraContadores.invoke(fieldStat, field);
+		
+		Assert.assertEquals("Projeto.Javali: 1 ",fieldStat.obterDetalhePopulacao(field));
+	
+		
+		} catch (Exception e) {
+		
+		}
+	}
+	
+	/*
+	Teste No caso de adi√ß√£o de um novo Animal(Javali) seja instanceado
+	*/
+    @Test
+	public void testObterDetalhesPopulacaoAdicaoJavali() {
+		try {
+		
+		a3 = new Javali(false, field, l3);
+		Method geraContadores = fieldStat.getClass().getDeclaredMethod("geraContadores", Campo.class);
+		geraContadores.setAccessible(true);
+		geraContadores.invoke(fieldStat, field);
+		System.out.println(fieldStat.obterDetalhePopulacao(field));
+		Assert.assertEquals("Projeto.Javali: 2 Projeto.QueroQuero: 1 ",fieldStat.obterDetalhePopulacao(field));
+	
+	
+		} catch (Exception e) {
+		
+		}
+	}
 	@Test
 	public void testReiniciaEstatisticas() {
 		try {
@@ -131,7 +179,7 @@ public class CampoEstatisticaTest {
 			Campo field = new Campo (100, 100);
 			Localizacao locQQ = new Localizacao(-1,-1);
 			QueroQuero qq = new QueroQuero(true, field, locQQ);
-			// deve retornar false pois a localizaÁ„o È invalida
+			// deve retornar false pois a localizao  invalida
 			Assert.assertEquals(false, fieldStat.ehViavel(field));
 			
 		} catch (Exception e) {
@@ -151,7 +199,7 @@ public class CampoEstatisticaTest {
 			Campo field = new Campo (100, 100);
 			Localizacao locQQ = new Localizacao(101,101);
 			QueroQuero qq = new QueroQuero(true, field, locQQ);
-			// deve retornar false pois a localizaÁ„o È invalida
+			// deve retornar false pois a localizao  invalida
 			Assert.assertEquals(false, fieldStat.ehViavel(field));
 			
 		} catch (Exception e) {
