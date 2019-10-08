@@ -136,6 +136,24 @@ public class CampoEstatisticaTest {
 	@Test
 	public void testEhViavel() {
 		try {
+			Method counters = fieldStat.getClass().getDeclaredMethod("geraContadores", Campo.class);
+			counters.setAccessible(true);
+			counters.invoke(fieldStat, field);
+			Campo field = new Campo (100, 100);
+			Localizacao locQQ = new Localizacao(20,20);
+			Localizacao LocJa = new Localizacao(45,78);
+			QueroQuero qq = new QueroQuero(true, field, locQQ);
+			Javali j = new Javali(true, field, LocJa);
+			Assert.assertEquals(true, fieldStat.ehViavel(field));
+			
+		} catch (Exception e) {
+			
+		}
+	}
+	
+	@Test
+	public void testNaoEhViavel() {
+		try {
 			Field counters = fieldStat.getClass().getDeclaredField("contadores");
 			counters.setAccessible(true);
 			Campo field = new Campo (100, 100);
@@ -144,9 +162,10 @@ public class CampoEstatisticaTest {
 			Assert.assertEquals(false, fieldStat.ehViavel(field));
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 		}
 	}
+	
 	
 	@SuppressWarnings("unchecked")
 	@Test
@@ -169,42 +188,5 @@ public class CampoEstatisticaTest {
 		}
 	}
 
-	//testes limite minimo
-	
-	@Test
-	public void testEhViavelMinimo() {
-		try {
-			Field counters = fieldStat.getClass().getDeclaredField("contadores");
-			counters.setAccessible(true);
-			Campo field = new Campo (100, 100);
-			Localizacao locQQ = new Localizacao(-1,-1);
-			QueroQuero qq = new QueroQuero(true, field, locQQ);
-			// deve retornar false pois a localizao  invalida
-			Assert.assertEquals(false, fieldStat.ehViavel(field));
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
-	
-	
-	//testes limite maximo
-
-	@Test
-	public void testEhViavelMaximo() {
-		try {
-			Field counters = fieldStat.getClass().getDeclaredField("contadores");
-			counters.setAccessible(true);
-			Campo field = new Campo (100, 100);
-			Localizacao locQQ = new Localizacao(101,101);
-			QueroQuero qq = new QueroQuero(true, field, locQQ);
-			// deve retornar false pois a localizao  invalida
-			Assert.assertEquals(false, fieldStat.ehViavel(field));
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 }
