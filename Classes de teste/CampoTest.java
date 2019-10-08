@@ -274,5 +274,39 @@ class CampoTest {
 		Assert.assertNull(c.getObjetoEm(50, 50));
 		System.out.println("Localizaco="+c.getObjetoEm(50, 50));
 	}
-*/		
+*/	
+
+    /* 
+    Teste referente ao método localizacaoAdjacenteLivre usando o limite maximo do campo
+    Esse teste deve retornar somente os valores válidos do campo,ou seja
+    As localizações adjacentes retornadas devem ser menores do que  50,50
+    Neste caso o teste só retornara somente uma das localizações pois as outras possuim um objeto animal instaceado
+    Mas notase que o sistema só reconhece as localalizações abaxo de 50,50
+    */
+    @Test
+	void limiteAdjacenteMaximo() {
+	c.lugar(a1, l6);
+	c.lugar(a1, 49,48);
+	c.lugar(a1, 48,48);
+	Localizacao lugar = new Localizacao(48,49);
+	Assert.assertEquals(lugar, c.localizacaoAdjacenteLivre(l6));
+    
+    
+    
+    
+    /*
+    Mesmo caso do teste anterior ms agora utilizando a localização minima
+    As locazacões retornadas devem ser maiores do que 0,0;
+    Neste caso o teste só retornara somente uma das localizações pois as outras possuim um objeto animal instaceado
+    Neste caso o teste só retornara somente uma das localizações pois as outras possuim um objeto animal instaceado
+    Mas notase que o sistema só reconhece as localalizações acima  de 0,0;
+    */
 }
+    @Test
+	void limiteAdjacenteMinimo() {
+	c.lugar(a1, l7);
+	c.lugar(a2, 0,1);
+	c.lugar(a1, 1,0);
+	Localizacao lugar = new Localizacao(1,1);
+	Assert.assertEquals(lugar, c.localizacaoAdjacenteLivre(l7));
+	}
