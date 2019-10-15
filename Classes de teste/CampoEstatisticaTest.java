@@ -1,20 +1,25 @@
+package teste;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import classes.*;
+
 import java.util.HashMap;
 
 
 public class CampoEstatisticaTest {
 	
+	/*O método de teste obterDetalhesPopulacao necessitará
+	 * de correções, dependendo do nome que utilizar no seu
+	 * pacote*/
 	
-	
-	private Javali a1;
-	private QueroQuero a2;
+	private QueroQuero qq;
 	private CampoEstatistica fieldStat;
 	private Campo field;
-	private Localizacao l1,l2;
+	private Localizacao l1, l2;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -24,9 +29,8 @@ public class CampoEstatisticaTest {
 		l1 = new Localizacao(35,48);
 		l2 = new Localizacao(15,32);
 		
-	
-		a2 = new QueroQuero(false, field, l2);
-		a1 = new Javali(false, field, l1);
+		qq = new QueroQuero(false, field, l2);
+		new Javali(false, field, l1);
 	}
 
 	/*
@@ -34,18 +38,16 @@ public class CampoEstatisticaTest {
 	Agora comparando a saída do progama com o número de objetos alocados no campo
 	*/
 	@Test
-	public void testObterDetalhesPopulacao() {
-		try {
-		
+	public void testObterDetalhesPopulacao() {	
+		try {		
 		Method geraContadores = fieldStat.getClass().getDeclaredMethod("geraContadores", Campo.class);
 		geraContadores.setAccessible(true);
 		geraContadores.invoke(fieldStat, field);
-		System.out.println(fieldStat.obterDetalhePopulacao(field));
-		Assert.assertEquals("Projeto.Javali: 1 Projeto.QueroQuero: 1 ",fieldStat.obterDetalhePopulacao(field));
-	
+		System.out.println(fieldStat.obterDetalhesPopulacao(field));
+		Assert.assertEquals("classes.Javali: 1 classes.QueroQuero: 1 ",fieldStat.obterDetalhesPopulacao(field));
 		
 		} catch (Exception e) {
-		
+			e.printStackTrace();
 		}
 	}
 	
@@ -53,16 +55,13 @@ public class CampoEstatisticaTest {
 	Teste limite no caso de um Quero Quero seja retirado do campo
 	*/
 	@Test
-	public void testObterDetalhesPopulacaoMorteQueroQuero() {
-		try {
-		
-		a2.setMorte();
+	public void testObterDetalhesPopulacaoMorteQueroQuero() {		
+		try {	
+		qq.setMorte();
 		Method geraContadores = fieldStat.getClass().getDeclaredMethod("geraContadores", Campo.class);
 		geraContadores.setAccessible(true);
 		geraContadores.invoke(fieldStat, field);
-		
-		Assert.assertEquals("Projeto.Javali: 1 ",fieldStat.obterDetalhePopulacao(field));
-	
+		Assert.assertEquals("classes.Javali: 1 ",fieldStat.obterDetalhesPopulacao(field));
 		
 		} catch (Exception e) {
 		
@@ -73,19 +72,18 @@ public class CampoEstatisticaTest {
 	Teste No caso de adição de um novo Animal(Javali) seja instanceado
 	*/
     @Test
-	public void testObterDetalhesPopulacaoAdicaoJavali() {
-		try {
-		
-		a3 = new Javali(false, field, l3);
+	public void testObterDetalhesPopulacaoAdicaoJavali() {		
+    	try {
+		Localizacao l3 = new Localizacao(20,20);
+		new Javali(false, field, l3);
 		Method geraContadores = fieldStat.getClass().getDeclaredMethod("geraContadores", Campo.class);
 		geraContadores.setAccessible(true);
 		geraContadores.invoke(fieldStat, field);
-		System.out.println(fieldStat.obterDetalhePopulacao(field));
-		Assert.assertEquals("Projeto.Javali: 2 Projeto.QueroQuero: 1 ",fieldStat.obterDetalhePopulacao(field));
-	
+		System.out.println(fieldStat.obterDetalhesPopulacao(field));
+		Assert.assertEquals("classes.Javali: 2 classes.QueroQuero: 1 ",fieldStat.obterDetalhesPopulacao(field));
 	
 		} catch (Exception e) {
-		
+			e.printStackTrace();
 		}
 	}
 	@Test
@@ -102,8 +100,7 @@ public class CampoEstatisticaTest {
 			Assert.assertEquals(0, score.get(counter));
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -142,12 +139,11 @@ public class CampoEstatisticaTest {
 			Campo field = new Campo (100, 100);
 			Localizacao locQQ = new Localizacao(20,20);
 			Localizacao LocJa = new Localizacao(45,78);
-			QueroQuero qq = new QueroQuero(true, field, locQQ);
-			Javali j = new Javali(true, field, LocJa);
-			Assert.assertEquals(true, fieldStat.ehViavel(field));
-			
+			new QueroQuero(true, field, locQQ);
+			new Javali(true, field, LocJa);
+			Assert.assertTrue(fieldStat.ehViavel(field));			
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
@@ -158,11 +154,10 @@ public class CampoEstatisticaTest {
 			counters.setAccessible(true);
 			Campo field = new Campo (100, 100);
 			Localizacao locQQ = new Localizacao(20,20);
-			QueroQuero qq = new QueroQuero(true, field, locQQ);
-			Assert.assertEquals(false, fieldStat.ehViavel(field));
-			
+			new QueroQuero(true, field, locQQ);
+			Assert.assertFalse(fieldStat.ehViavel(field));			
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
@@ -177,16 +172,13 @@ public class CampoEstatisticaTest {
 			counters.setAccessible(true);
 			Campo field = new Campo (100, 100);
 			Localizacao loc = new Localizacao(20,20);
-			QueroQuero qq = new QueroQuero(true, field, loc);
+			new QueroQuero(true, field, loc);
 			generateCounters.invoke(fieldStat, field);
 			HashMap <Class<?>, Contador> counterMap = (HashMap<Class<?>, Contador>) counters.get(fieldStat); 
 			Contador countQQ = counterMap.get(QueroQuero.class);
-			Assert.assertEquals(countQQ.getContagem(), 1);
-			
+			Assert.assertEquals(countQQ.getContagem(), 1);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-
 }
